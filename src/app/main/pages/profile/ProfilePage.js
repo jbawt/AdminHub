@@ -7,6 +7,7 @@ import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
 import AboutTab from './tabs/AboutTab';
 import PhotosVideosTab from './tabs/PhotosVideosTab';
@@ -54,6 +55,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 
 function ProfilePage() {
   const [selectedTab, setSelectedTab] = useState(0);
+  const user = useSelector(({ auth }) => auth.user.data);
 
   function handleTabChange(event, value) {
     setSelectedTab(value);
@@ -73,7 +75,7 @@ function ProfilePage() {
                   borderColor: 'background.default',
                 }}
                 className="-mt-64  w-128 h-128"
-                src="assets/images/avatars/Velazquez.jpg"
+                src={user.photoURL}
               />
             </motion.div>
             <div className="flex flex-col md:flex-row flex-1 items-center justify-between p-8">
@@ -86,7 +88,7 @@ function ProfilePage() {
                   variant="h4"
                   color="inherit"
                 >
-                  John Doe
+                  {user.displayName}
                 </Typography>
               </motion.div>
 

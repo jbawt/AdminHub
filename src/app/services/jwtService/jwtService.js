@@ -66,7 +66,6 @@ class JwtService extends FuseUtils.EventEmitter {
           password,
         })
         .then((response) => {
-          console.log(response);
           if (response.data.user) {
             this.setSession(response.data.access_token);
             resolve(response.data.user);
@@ -102,7 +101,7 @@ class JwtService extends FuseUtils.EventEmitter {
   };
 
   updateUserData = (user) => {
-    return axios.post('/api/auth/user/update', {
+    return axios.post('http://localhost:8080/api/auth/user/update', {
       user,
     });
   };
