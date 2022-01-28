@@ -93,11 +93,19 @@ function ProfilePage() {
               </motion.div>
 
               <div className="flex items-center justify-end -mx-4 mt-24 md:mt-0">
-                <Button className="mx-8" variant="contained" color="secondary" aria-label="Follow">
+                <Button variant="contained" color="secondary" aria-label="Follow">
                   Follow
                 </Button>
-                <Button variant="contained" color="primary" aria-label="Send Message">
+                <Button
+                  className="mx-8"
+                  variant="contained"
+                  color="primary"
+                  aria-label="Send Message"
+                >
                   Send Message
+                </Button>
+                <Button variant="contained" color="secondary" aria-label="Send Message">
+                  Edit Profile
                 </Button>
               </div>
             </div>
