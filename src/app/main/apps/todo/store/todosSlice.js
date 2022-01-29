@@ -10,7 +10,7 @@ export const getTodos = createAsyncThunk(
     });
     const data = await response.data;
 
-    const validateDate = data.forEach((todo) => {
+    data.forEach((todo) => {
       todo.startDate = new Date(todo.startDate);
       todo.dueDate = new Date(todo.dueDate);
     });
