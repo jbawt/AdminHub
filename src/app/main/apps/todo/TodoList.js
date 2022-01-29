@@ -68,8 +68,8 @@ function TodoList(props) {
   return (
     <List className="p-0">
       <motion.div variants={container} initial="hidden" animate="show">
-        {filteredData.map((todo) => (
-          <motion.div variants={item} key={todo.id}>
+        {filteredData.map((todo, key) => (
+          <motion.div variants={item} key={key}>
             <TodoListItem todo={todo} />
           </motion.div>
         ))}

@@ -9,6 +9,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import AboutTab from './tabs/AboutTab';
 import PhotosVideosTab from './tabs/PhotosVideosTab';
 import TimelineTab from './tabs/TimelineTab';
@@ -55,6 +56,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 
 function ProfilePage() {
   const [selectedTab, setSelectedTab] = useState(0);
+  const [profileDialog, setProfileDialog] = useState(false);
   const user = useSelector(({ auth }) => auth.user.data);
 
   function handleTabChange(event, value) {
@@ -104,8 +106,13 @@ function ProfilePage() {
                 >
                   Send Message
                 </Button>
-                <Button variant="contained" color="secondary" aria-label="Send Message">
-                  Edit Profile
+                <Button
+                  onClick={() => setProfileDialog(true)}
+                  variant="contained"
+                  color="warning"
+                  aria-label="Send Message"
+                >
+                  <SettingsOutlinedIcon color="inherit" />
                 </Button>
               </div>
             </div>

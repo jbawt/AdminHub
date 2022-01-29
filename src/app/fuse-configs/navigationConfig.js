@@ -9,6 +9,27 @@ i18next.addResourceBundle('ar', 'navigation', ar);
 
 const navigationConfig = [
   {
+    id: 'dashboards',
+    title: 'Dashboards',
+    translate: 'DASHBOARDS',
+    type: 'group',
+    icon: 'dashboard',
+    children: [
+      {
+        id: 'analytics-dashboard',
+        title: 'Analytics',
+        type: 'item',
+        url: 'apps/dashboards/analytics',
+      },
+      {
+        id: 'project-dashboard',
+        title: 'Project',
+        type: 'item',
+        url: 'apps/dashboards/project',
+      },
+    ],
+  },
+  {
     id: 'applications',
     title: 'Applications',
     translate: 'APPLICATIONS',
@@ -16,33 +37,12 @@ const navigationConfig = [
     icon: 'apps',
     children: [
       {
-        id: 'dashboards',
-        title: 'Dashboards',
-        translate: 'DASHBOARDS',
-        type: 'collapse',
-        icon: 'dashboard',
-        children: [
-          {
-            id: 'analytics-dashboard',
-            title: 'Analytics',
-            type: 'item',
-            url: 'apps/dashboards/analytics',
-          },
-          {
-            id: 'project-dashboard',
-            title: 'Project',
-            type: 'item',
-            url: 'apps/dashboards/project',
-          },
-        ],
-      },
-      {
-        id: 'academy',
-        title: 'Academy',
-        translate: 'ACADEMY',
+        id: 'calendar',
+        title: 'Calendar',
+        translate: 'CALENDAR',
         type: 'item',
-        icon: 'school',
-        url: 'apps/academy',
+        icon: 'today',
+        url: 'apps/calendar',
       },
       {
         id: 'todo',
@@ -54,19 +54,6 @@ const navigationConfig = [
         badge: {
           title: 3,
           bg: 'rgb(255, 111, 0)',
-          fg: '#FFFFFF',
-        },
-      },
-      {
-        id: 'chat',
-        title: 'Chat',
-        translate: 'CHAT',
-        type: 'item',
-        icon: 'chat',
-        url: 'apps/chat',
-        badge: {
-          title: 13,
-          bg: 'rgb(9, 210, 97)',
           fg: '#FFFFFF',
         },
       },
@@ -154,6 +141,19 @@ const navigationConfig = [
         url: 'apps/contacts/all',
       },
       {
+        id: 'chat',
+        title: 'Chat',
+        translate: 'CHAT',
+        type: 'item',
+        icon: 'chat',
+        url: 'apps/chat',
+        badge: {
+          title: 13,
+          bg: 'rgb(9, 210, 97)',
+          fg: '#FFFFFF',
+        },
+      },
+      {
         id: 'mail',
         title: 'Mail',
         translate: 'MAIL',
@@ -166,13 +166,22 @@ const navigationConfig = [
           fg: '#FFFFFF',
         },
       },
+    ],
+  },
+  {
+    id: 'learning',
+    title: 'Learning',
+    translate: 'LEARNING',
+    type: 'group',
+    icon: 'school',
+    children: [
       {
-        id: 'calendar',
-        title: 'Calendar',
-        translate: 'CALENDAR',
+        id: 'academy',
+        title: 'Academy',
+        translate: 'ACADEMY',
         type: 'item',
-        icon: 'today',
-        url: 'apps/calendar',
+        icon: 'school',
+        url: 'apps/academy',
       },
     ],
   },
