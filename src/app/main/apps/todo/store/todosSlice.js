@@ -1,9 +1,12 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
+import { updateNavigationItem } from 'app/store/fuse/navigationSlice';
 import axios from 'axios';
+
+let todoBadges;
 
 export const getTodos = createAsyncThunk(
   'todoApp/todos/getTodos',
-  async (routeParams, { getState }) => {
+  async (routeParams, { dispatch, getState }) => {
     routeParams = routeParams || getState().todoApp.todos.routeParams;
     const response = await axios.get('/api/todo-app/todos', {
       params: routeParams,
@@ -14,6 +17,18 @@ export const getTodos = createAsyncThunk(
       todo.startDate = new Date(todo.startDate);
       todo.dueDate = new Date(todo.dueDate);
     });
+
+    todoBadges = data.filter((todo) => !todo.completed || !todo.deleted).length;
+    dispatch(
+      updateNavigationItem('todo', {
+        title: 'To-Do',
+        badge: {
+          title: todoBadges,
+          bg: 'rgb(255, 111, 0)',
+          fg: '#FFFFFF',
+        },
+      })
+    );
 
     return { data, routeParams };
   }

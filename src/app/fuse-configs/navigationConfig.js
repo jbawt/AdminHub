@@ -51,11 +51,6 @@ const navigationConfig = [
         type: 'item',
         icon: 'check_box',
         url: 'apps/todo',
-        badge: {
-          title: 3,
-          bg: 'rgb(255, 111, 0)',
-          fg: '#FFFFFF',
-        },
       },
       {
         id: 'scrumboard',
