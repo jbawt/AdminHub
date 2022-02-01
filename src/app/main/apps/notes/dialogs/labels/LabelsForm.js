@@ -5,7 +5,7 @@ import _ from '@lodash';
 import TextField from '@mui/material/TextField';
 import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
-import Input from '@mui/material/Input';
+// import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -15,7 +15,7 @@ import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
-import { updateLabels } from '../../store/labelsSlice';
+import { updateLabels, closeLabelsDialog } from '../../store/labelsSlice';
 
 const defaultValues = {
   name: '',
@@ -60,6 +60,7 @@ function LabelsForm(props) {
     const newLabel = LabelModel(data);
     setLabels(_.setIn(labelsForm, newLabel.id, newLabel));
     reset(defaultValues);
+    dispatch(closeLabelsDialog());
   }
 
   return (
@@ -109,25 +110,27 @@ function LabelsForm(props) {
         {useMemo(() => {
           function handleOnDelete(label) {
             setLabels(_.omit(labelsForm, [label.id]));
+            dispatch(closeLabelsDialog());
           }
 
-          function handleLabelChange(event, label) {
-            const updatedLabel = LabelModel(_.setIn(label, event.target.name, event.target.value));
-            setLabels(_.setIn(labelsForm, updatedLabel.id, updatedLabel));
-          }
+          // function handleLabelChange(event, label) {
+          //   const updatedLabel = LabelModel(_.setIn(label, event.target.name, event.target.value));
+          //   setLabels(_.setIn(labelsForm, updatedLabel.id, updatedLabel));
+          // }
 
           return Object.entries(labelsForm).map(([key, label]) => (
-            <ListItem className="p-0 mb-8" key={label.id} dense>
+            <ListItem className="p-0 mb-8" key={key} dense>
               <Icon className="list-item-icon text-16" color="action">
                 label
               </Icon>
-              <Input
+              {/* <Input
                 className={clsx('flex flex-1 mx-8')}
                 name="name"
                 value={label.name}
                 onChange={(event) => handleLabelChange(event, label)}
                 disableUnderline
-              />
+              /> */}
+              <Typography className={clsx('flex flex-1 mx-8')}>{label.name}</Typography>
               <IconButton
                 className="w-32 h-32 mx-4 p-0"
                 aria-label="Delete"
@@ -138,7 +141,7 @@ function LabelsForm(props) {
               </IconButton>
             </ListItem>
           ));
-        }, [labelsForm])}
+        }, [labelsForm, dispatch])}
       </List>
     </>
   );

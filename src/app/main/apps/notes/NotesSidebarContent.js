@@ -80,9 +80,9 @@ function NotesSidebarContent(props) {
         <Divider />
         <List className="px-12">
           <ListSubheader>Labels</ListSubheader>
-          {labels.map((label) => (
+          {labels.map((label, key) => (
             <StyledListItem
-              key={label.id}
+              key={key}
               button
               component={NavLinkAdapter}
               to={`/apps/notes/labels/${label.handle}/${label.id}`}
