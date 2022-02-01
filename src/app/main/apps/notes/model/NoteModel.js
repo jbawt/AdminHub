@@ -9,7 +9,7 @@ function NoteModel(data) {
     title: '',
     description: '',
     archive: false,
-    image: null,
+    image: '',
     time: new Date(Date.now()),
     reminder: null,
     checklist: [],

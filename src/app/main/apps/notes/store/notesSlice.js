@@ -15,12 +15,17 @@ export const createNote = createAsyncThunk('notesApp/notes/createNote', async (n
   return data;
 });
 
-export const updateNote = createAsyncThunk('notesApp/notes/updateNote', async (note) => {
-  const response = await axios.post('/api/notes-app/update-note', { note });
-  const data = await response.data;
+export const updateNote = createAsyncThunk(
+  'notesApp/notes/updateNote',
+  async (note, { dispatch }) => {
+    const response = await axios.post('/api/notes-app/update-note', { note });
+    const data = await response.data;
 
-  return data;
-});
+    dispatch(getNotes());
+
+    return data;
+  }
+);
 
 export const removeNote = createAsyncThunk(
   'notesApp/notes/removeNote',
@@ -29,6 +34,7 @@ export const removeNote = createAsyncThunk(
     const data = await response.data;
 
     dispatch(closeNoteDialog());
+    dispatch(getNotes());
 
     return data;
   }

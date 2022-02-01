@@ -22,10 +22,10 @@ function NoteFormList(props) {
   return (
     <div className={props.className}>
       <List dense>
-        {props.checklist.map((item) => (
+        {props.checklist.map((item, key) => (
           <NoteFormListItem
             item={item}
-            key={item.id}
+            key={key}
             onListItemChange={handleListItemChange}
             onListItemRemove={handleListItemRemove}
           />

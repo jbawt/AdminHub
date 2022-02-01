@@ -46,8 +46,8 @@ function NoteListItem(props) {
 
         {props.note.checklist && props.note.checklist.length > 0 && (
           <ul className="px-20 my-16 flex flex-wrap list-reset">
-            {props.note.checklist.map((item) => (
-              <li key={item.id} className="flex items-center w-full">
+            {props.note.checklist.map((item, key) => (
+              <li key={key} className="flex items-center w-full">
                 <Icon color="action" className="text-16">
                   {item.checked ? 'check_box_outline' : 'check_box_outline_blank'}
                 </Icon>
