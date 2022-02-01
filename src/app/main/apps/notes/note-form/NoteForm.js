@@ -224,11 +224,7 @@ function NoteForm(props) {
 
           <Tooltip title="Add image" placement="bottom">
             <div>
-              <NoteFormUploadImage
-                onChange={(val) =>
-                  setValue('image', val, { shouldDirty: true, shouldValidate: true })
-                }
-              />
+              <NoteFormUploadImage onChange={(val) => setValue('image', val)} />
             </div>
           </Tooltip>
 

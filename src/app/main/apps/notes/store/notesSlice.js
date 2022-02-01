@@ -9,10 +9,12 @@ export const getNotes = createAsyncThunk('notesApp/notes/getNotes', async () => 
 });
 
 export const createNote = createAsyncThunk('notesApp/notes/createNote', async (note) => {
-  const response = await axios.post('/api/notes-app/create-note', { note });
-  const data = await response.data;
+  console.log(note);
 
-  return data;
+  // const response = await axios.post('/api/notes-app/create-note', { note });
+  // const data = await response.data;
+
+  // return data;
 });
 
 export const updateNote = createAsyncThunk('notesApp/notes/updateNote', async (note) => {
