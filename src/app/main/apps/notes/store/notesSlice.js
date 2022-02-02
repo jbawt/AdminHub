@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { getData } from '../../../../fuse-layouts/shared-components/quickPanel/store/dataSlice';
 
 export const getNotes = createAsyncThunk('notesApp/notes/getNotes', async () => {
   const response = await axios.get('/api/notes-app/notes');
@@ -8,12 +9,17 @@ export const getNotes = createAsyncThunk('notesApp/notes/getNotes', async () => 
   return data;
 });
 
-export const createNote = createAsyncThunk('notesApp/notes/createNote', async (note) => {
-  const response = await axios.post('/api/notes-app/create-note', { note });
-  const data = await response.data;
+export const createNote = createAsyncThunk(
+  'notesApp/notes/createNote',
+  async (note, { dispatch }) => {
+    const response = await axios.post('/api/notes-app/create-note', { note });
+    const data = await response.data;
 
-  return data;
-});
+    dispatch(getData());
+
+    return data;
+  }
+);
 
 export const updateNote = createAsyncThunk(
   'notesApp/notes/updateNote',
@@ -22,6 +28,7 @@ export const updateNote = createAsyncThunk(
     const data = await response.data;
 
     dispatch(getNotes());
+    dispatch(getData());
 
     return data;
   }
@@ -35,6 +42,7 @@ export const removeNote = createAsyncThunk(
 
     dispatch(closeNoteDialog());
     dispatch(getNotes());
+    dispatch(getData());
 
     return data;
   }
