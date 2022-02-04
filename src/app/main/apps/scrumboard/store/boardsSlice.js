@@ -19,7 +19,7 @@ export const newBoard = createAsyncThunk(
     const data = await response.data;
 
     history.push({
-      pathname: `/apps/scrumboard/boards/${data.id}/${data.handle}`,
+      pathname: `/apps/scrumboard/boards/${data.id}/${data.uri}`,
     });
 
     return data;
