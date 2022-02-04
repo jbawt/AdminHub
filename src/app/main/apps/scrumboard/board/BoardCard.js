@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 import format from 'date-fns/format';
 import getUnixTime from 'date-fns/getUnixTime';
+import parseISO from 'date-fns/parseISO';
 import { Draggable } from 'react-beautiful-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import { openCardDialog } from '../store/cardSlice';
@@ -89,7 +90,7 @@ function BoardCard(props) {
                     <div
                       className={clsx(
                         'flex items-center px-8 py-4 mx-4 rounded-16',
-                        getUnixTime(new Date()) > card.due
+                        getUnixTime(new Date()) > getUnixTime(parseISO(card.due))
                           ? 'bg-red text-white'
                           : 'bg-green text-white'
                       )}
