@@ -16,7 +16,7 @@ const schema = yup.object().shape({
 
 function CardComment(props) {
   const defaultValues = {
-    idMember: '36027j1930450d8bf7b10158',
+    idMember: 1,
     message: '',
   };
   const { control, formState, handleSubmit, reset } = useForm({

@@ -7,7 +7,6 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 import format from 'date-fns/format';
-import fromUnixTime from 'date-fns/fromUnixTime';
 import getUnixTime from 'date-fns/getUnixTime';
 import { Draggable } from 'react-beautiful-dnd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,6 +23,7 @@ function BoardCard(props) {
   const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
 
   const { cardId, index } = props;
+
   const card = _.find(board.cards, { id: cardId });
   const checkItemsChecked = getCheckItemsChecked(card);
   const checkItems = getCheckItems(card);
@@ -49,7 +49,7 @@ function BoardCard(props) {
   }
 
   return (
-    <Draggable draggableId={cardId} index={index} type="card">
+    <Draggable draggableId={`${cardId}`} index={index} type="card">
       {(provided, snapshot) => (
         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
           <StyledCard
@@ -95,7 +95,7 @@ function BoardCard(props) {
                       )}
                     >
                       <Icon className="text-16">access_time</Icon>
-                      <span className="mx-4">{format(fromUnixTime(card.due), 'MMM do yy')}</span>
+                      <span className="mx-4">{format(new Date(card.due), 'MMM do yy')}</span>
                     </div>
                   )}
 

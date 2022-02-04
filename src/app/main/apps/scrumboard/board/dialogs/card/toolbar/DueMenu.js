@@ -3,7 +3,6 @@ import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import { DateTimePicker } from '@mui/lab';
 import format from 'date-fns/format';
-import fromUnixTime from 'date-fns/fromUnixTime';
 import getUnixTime from 'date-fns/getUnixTime';
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
@@ -11,7 +10,7 @@ import ToolbarMenu from './ToolbarMenu';
 
 function DueMenu(props) {
   const [anchorEl, setAnchorEl] = useState(null);
-  const dueDate = props.due ? format(fromUnixTime(props.due), 'Pp') : format(new Date(), 'Pp');
+  const dueDate = props.due ? format(new Date(props.due), 'MMM do yyy') : format(new Date(), 'Pp');
 
   function handleMenuOpen(event) {
     setAnchorEl(event.currentTarget);

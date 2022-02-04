@@ -16,7 +16,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Autocomplete from '@mui/material/Autocomplete';
-import fromUnixTime from 'date-fns/fromUnixTime';
+// import fromUnixTime from 'date-fns/fromUnixTime';
 import getUnixTime from 'date-fns/getUnixTime';
 import format from 'date-fns/format';
 import { Controller, useForm } from 'react-hook-form';
@@ -37,6 +37,7 @@ function BoardCardForm(props) {
   const dispatch = useDispatch();
   const card = useSelector(({ scrumboardApp }) => scrumboardApp.card.data);
   const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
+  console.log(board);
   const { register, watch, control, setValue } = useForm({ mode: 'onChange', defaultValues: card });
   const cardForm = watch();
 
@@ -152,7 +153,7 @@ function BoardCardForm(props) {
           </div>
           {cardForm.due && (
             <DateTimePicker
-              value={format(fromUnixTime(cardForm.due), 'Pp')}
+              value={format(new Date(cardForm.due), 'MMM do yyyy')}
               inputFormat="Pp"
               onChange={(val) => setValue('due', getUnixTime(val))}
               renderInput={(_props) => (

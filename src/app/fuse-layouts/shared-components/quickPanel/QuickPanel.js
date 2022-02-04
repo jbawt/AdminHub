@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { ListSubheader, Divider, ListItem, ListItemText, List } from '@mui/material';
 import format from 'date-fns/format';
 import withReducer from 'app/store/withReducer';
-import { memo, useEffect } from 'react';
+import { Fragment, memo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import reducer from './store';
 import { getData } from './store/dataSlice';
@@ -59,15 +59,15 @@ function QuickPanel(props) {
           {data &&
             data.notes.map((note, key) => {
               return (
-                <>
-                  <ListItem key={key}>
+                <Fragment key={key}>
+                  <ListItem>
                     <ListItemText
                       primary={note.title}
                       secondary={format(new Date(note.time), 'EEE MMM do yyyy')}
                     />
                   </ListItem>
                   <Divider />
-                </>
+                </Fragment>
               );
             })}
         </List>
@@ -76,15 +76,15 @@ function QuickPanel(props) {
           {data &&
             data.reminders.map((note, key) => {
               return (
-                <>
-                  <ListItem key={key}>
+                <Fragment key={key}>
+                  <ListItem>
                     <ListItemText
                       primary={note.title}
                       secondary={`Due: ${format(new Date(note.reminder), 'EEE MMM do h:mm aaa')}`}
                     />
                   </ListItem>
                   <Divider />
-                </>
+                </Fragment>
               );
             })}
         </List>

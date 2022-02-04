@@ -2,12 +2,11 @@ import _ from '@lodash';
 import Avatar from '@mui/material/Avatar';
 import ListItem from '@mui/material/ListItem';
 import Typography from '@mui/material/Typography';
-import fromUnixTime from 'date-fns/fromUnixTime';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import Box from '@mui/material/Box';
 
 function CardActivity(props) {
-  const user = _.find(props.members, { id: props.item.idMember });
+  const user = _.find(props.members, { id: props.item.member_id });
 
   switch (props.item.type) {
     case 'comment': {
@@ -24,7 +23,7 @@ function CardActivity(props) {
             <div className="flex items-center">
               <Typography>{user.name}</Typography>
               <Typography className="mx-8 text-12" color="textSecondary">
-                {formatDistanceToNow(fromUnixTime(props.item.time), { addSuffix: true })}
+                {formatDistanceToNow(new Date(props.item.time), { addSuffix: true })}
               </Typography>
             </div>
             <Typography>{props.item.message}</Typography>
@@ -40,7 +39,7 @@ function CardActivity(props) {
             <Typography>{user.name},</Typography>
             <Typography className="mx-8">{props.item.message}</Typography>
             <Typography className="text-12" color="textSecondary">
-              {formatDistanceToNow(fromUnixTime(props.item.time), { addSuffix: true })}
+              {formatDistanceToNow(new Date(props.item.time), { addSuffix: true })}
             </Typography>
           </div>
         </ListItem>
