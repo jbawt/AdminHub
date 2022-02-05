@@ -110,7 +110,9 @@ function BoardCardForm(props) {
                 name="attachments"
                 control={control}
                 defaultValue={[]}
-                render={({ field: { onChange, value } }) => <AttachmentMenu onChange={onChange} />}
+                render={({ field: { onChange, value } }) => (
+                  <AttachmentMenu onChange={(val) => onChange(_.xor(value, [val]))} />
+                )}
               />
 
               <Controller
@@ -324,14 +326,14 @@ function BoardCardForm(props) {
               <Typography className="font-semibold text-16 mx-8">Attachments</Typography>
             </div>
             <div className="flex flex-col sm:flex-row flex-wrap -mx-16">
-              {cardForm.attachments.map((item) => (
+              {cardForm.attachments.map((item, key) => (
                 <CardAttachment
                   item={item}
                   card={cardForm}
                   // makeCover={makeCover}
                   // removeCover={removeCover}
                   // removeAttachment={removeAttachment}
-                  key={item.id}
+                  key={key}
                 />
               ))}
             </div>

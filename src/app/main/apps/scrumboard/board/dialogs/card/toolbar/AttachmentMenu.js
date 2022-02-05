@@ -13,7 +13,11 @@ function AttachmentMenu(props) {
 
     reader.onload = () => {
       if (props.onChange) {
-        props.onChange(`data:${file.type};base64,${btoa(reader.result)}`);
+        const data = {
+          image: `data:${file.type};base64,${btoa(reader.result)}`,
+          type: file.type,
+        };
+        props.onChange(data);
       }
     };
 
