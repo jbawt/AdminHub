@@ -33,6 +33,7 @@ import DueMenu from './toolbar/DueMenu';
 import LabelsMenu from './toolbar/LabelsMenu';
 import MembersMenu from './toolbar/MembersMenu';
 import OptionsMenu from './toolbar/OptionsMenu';
+import AttachmentMenu from './toolbar/AttachmentMenu';
 
 function BoardCardForm(props) {
   const dispatch = useDispatch();
@@ -109,11 +110,7 @@ function BoardCardForm(props) {
                 name="attachments"
                 control={control}
                 defaultValue={[]}
-                render={({ field: { onChange, value } }) => (
-                  <IconButton color="inherit" size="large">
-                    <Icon>attachment</Icon>
-                  </IconButton>
-                )}
+                render={({ field: { onChange, value } }) => <AttachmentMenu onChange={onChange} />}
               />
 
               <Controller

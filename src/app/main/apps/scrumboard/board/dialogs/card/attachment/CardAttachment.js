@@ -6,6 +6,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import format from 'date-fns/format';
 import fromUnixTime from 'date-fns/fromUnixTime';
+import getUnixTime from 'date-fns/getUnixTime';
 import { useState } from 'react';
 
 function CardAttachment(props) {
@@ -38,7 +39,7 @@ function CardAttachment(props) {
               )}
             </div>
             <Typography className="truncate w-full mb-12" color="textSecondary">
-              {format(fromUnixTime(props.item.time), 'Pp')}
+              {format(fromUnixTime(getUnixTime(new Date(props.item.time))), 'Pp')}
             </Typography>
             <Button
               aria-owns={anchorEl ? 'actions-menu' : null}

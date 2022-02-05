@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import _ from '@lodash';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -15,8 +16,10 @@ const schema = yup.object().shape({
 });
 
 function CardComment(props) {
+  const loggedInUser = useSelector(({ auth }) => auth.user);
+
   const defaultValues = {
-    idMember: 1,
+    idMember: loggedInUser.id,
     message: '',
   };
   const { control, formState, handleSubmit, reset } = useForm({
