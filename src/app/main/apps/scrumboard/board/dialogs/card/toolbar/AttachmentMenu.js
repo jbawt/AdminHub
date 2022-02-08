@@ -1,5 +1,6 @@
 import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
+import FuseUtils from '@fuse/utils/FuseUtils';
 
 function AttachmentMenu(props) {
   function handleChange(e) {
@@ -14,8 +15,11 @@ function AttachmentMenu(props) {
     reader.onload = () => {
       if (props.onChange) {
         const data = {
-          image: `data:${file.type};base64,${btoa(reader.result)}`,
+          id: FuseUtils.generateGUID(),
+          src: `data:${file.type};base64,${btoa(reader.result)}`,
           type: file.type,
+          name: file.name,
+          time: new Date(Date.now()),
         };
         props.onChange(data);
       }

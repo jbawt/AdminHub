@@ -23,7 +23,14 @@ import parseISO from 'date-fns/parseISO';
 import { Controller, useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeCardDialog, removeCard, updateCard } from '../../../store/cardSlice';
+import {
+  closeCardDialog,
+  removeCard,
+  updateCard,
+  deleteAttachment,
+  attachmentCover,
+  removeAttachmentCover,
+} from '../../../store/cardSlice';
 import CardActivity from './activity/CardActivity';
 import CardAttachment from './attachment/CardAttachment';
 import CardChecklist from './checklist/CardChecklist';
@@ -45,6 +52,18 @@ function BoardCardForm(props) {
   const updateCardData = useDebounce((boardId, newCard) => {
     dispatch(updateCard({ boardId, card: { ...newCard } }));
   }, 600);
+
+  const removeAttachment = useDebounce((attachmentId) => {
+    dispatch(deleteAttachment({ attachmentId }));
+  }, 600);
+
+  const makeCover = useDebounce((attachmentId) => {
+    dispatch(attachmentCover({ attachmentId, cardId: card.id }));
+  });
+
+  const removeCover = useDebounce(() => {
+    dispatch(removeAttachmentCover({ cardId: card.id }));
+  });
 
   const list = card ? _.find(board.lists, (_list) => _list.idCards.includes(card.id)) : null;
 
@@ -111,7 +130,7 @@ function BoardCardForm(props) {
                 control={control}
                 defaultValue={[]}
                 render={({ field: { onChange, value } }) => (
-                  <AttachmentMenu onChange={(val) => onChange(_.xor(value, [val]))} />
+                  <AttachmentMenu onChange={(val) => onChange([...cardForm.attachments, val])} />
                 )}
               />
 
@@ -330,9 +349,12 @@ function BoardCardForm(props) {
                 <CardAttachment
                   item={item}
                   card={cardForm}
-                  // makeCover={makeCover}
-                  // removeCover={removeCover}
-                  // removeAttachment={removeAttachment}
+                  makeCover={makeCover}
+                  removeCover={removeCover}
+                  removeAttachment={(attachmentId) => {
+                    removeAttachment(attachmentId);
+                    setValue('attachments', _.reject(cardForm.attachments, { id: item.id }));
+                  }}
                   key={key}
                 />
               ))}
@@ -385,8 +407,8 @@ function BoardCardForm(props) {
                     <Typography className="font-semibold text-16 mx-8">Activity</Typography>
                   </div>
                   <List className="">
-                    {value.map((item) => (
-                      <CardActivity item={item} key={item.id} members={board.members} />
+                    {value.map((item, key) => (
+                      <CardActivity item={item} key={key} members={board.members} />
                     ))}
                   </List>
                 </div>

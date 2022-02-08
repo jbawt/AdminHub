@@ -1,5 +1,6 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
 import axios from 'axios';
+import _ from 'lodash';
 import { showMessage } from 'app/store/fuse/messageSlice';
 
 export const updateCard = createAsyncThunk(
@@ -42,6 +43,46 @@ export const removeCard = createAsyncThunk(
   }
 );
 
+export const deleteAttachment = createAsyncThunk(
+  'scrumboardApp/card/removeAttachment',
+  async ({ attachmentId }, { dispatch }) => {
+    const response = await axios.post('/api/scrumboard-app/card/remove-attachment', {
+      attachmentId,
+    });
+
+    const data = await response.data;
+
+    return data;
+  }
+);
+
+export const attachmentCover = createAsyncThunk(
+  'scrumboardApp/card/attachmentCover',
+  async ({ attachmentId, cardId }, { dispatch }) => {
+    const response = await axios.post('/api/scrumboard-app/card/attachment-cover', {
+      attachmentId,
+      cardId,
+    });
+
+    const data = await response.data;
+
+    return data;
+  }
+);
+
+export const removeAttachmentCover = createAsyncThunk(
+  'scrumboardApp/card/removeAttachmentCover',
+  async ({ cardId }, { dispatch }) => {
+    const response = await axios.post('/api/scrumboard-app/card/remove/attachment-cover', {
+      cardId,
+    });
+
+    const data = await response.data;
+
+    return data;
+  }
+);
+
 const cardSlice = createSlice({
   name: 'scrumboardApp/card',
   initialState: {
@@ -61,6 +102,19 @@ const cardSlice = createSlice({
   extraReducers: {
     [updateCard.fulfilled]: (state, action) => {
       state.data = action.payload;
+    },
+    [deleteAttachment.fulfilled]: (state, action) => {
+      const attachmentId = action.payload;
+      state.data.attachments = _.reject(state.data.attachments, { id: attachmentId });
+    },
+    [attachmentCover.fulfilled]: (state, action) => {
+      const idAttachmentCover = action.payload;
+      state.data.idAttachmentCover = idAttachmentCover;
+      console.log(current(state));
+    },
+    [removeAttachmentCover.fulfilled]: (state, action) => {
+      const idAttachmentCover = '';
+      state.data.idAttachmentCover = idAttachmentCover;
     },
   },
 });

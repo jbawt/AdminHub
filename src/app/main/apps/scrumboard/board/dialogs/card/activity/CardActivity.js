@@ -6,7 +6,7 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import Box from '@mui/material/Box';
 
 function CardActivity(props) {
-  const user = _.find(props.members, { id: props.item.member_id });
+  const user = _.find(props.members, { id: props.item.idMember || props.item.member_id });
 
   switch (props.item.type) {
     case 'comment': {
