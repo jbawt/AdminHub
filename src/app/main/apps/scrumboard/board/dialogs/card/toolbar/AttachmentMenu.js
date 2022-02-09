@@ -15,9 +15,9 @@ function AttachmentMenu(props) {
     reader.onload = () => {
       if (props.onChange) {
         const data = {
-          id: FuseUtils.generateGUID(),
+          attachment_id: FuseUtils.generateGUID(),
           src: `data:${file.type};base64,${btoa(reader.result)}`,
-          type: file.type,
+          type: file.type.split('/')[0],
           name: file.name,
           time: new Date(Date.now()),
         };

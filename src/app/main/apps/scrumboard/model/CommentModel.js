@@ -6,7 +6,7 @@ function CommentModel(data) {
   data = data || {};
 
   return _.defaults(data, {
-    id: FuseUtils.generateGUID(),
+    activity_id: FuseUtils.generateGUID(),
     type: 'comment',
     idMember: null,
     message: '',
