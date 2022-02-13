@@ -294,7 +294,20 @@ const boardsSlice = createSlice({
       });
     },
     [updateMembers.fulfilled]: (state, action) => {
+      const memberIds = action.payload.map((member) => member.id);
       state.members = action.payload;
+      state.cards = state.cards.map((card) => {
+        const newMemberIds = card.idMembers
+          .map((id) => {
+            if (memberIds.includes(id)) {
+              return id;
+            }
+            return null;
+          })
+          .filter((memberId) => memberId !== null);
+        card.idMembers = newMemberIds;
+        return card;
+      });
     },
   },
 });

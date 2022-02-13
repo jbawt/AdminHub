@@ -26,7 +26,12 @@ function BoardSettingsSidebar(props) {
   return (
     <div>
       <AppBar position="static">
-        <Toolbar className="flex w-full justify-center">Settings</Toolbar>
+        <Toolbar className="flex w-full justify-center">
+          <Icon className="text-20" color="inherit">
+            developer_board
+          </Icon>
+          <Typography className="font-semibold text-16 mx-8">Manage Board</Typography>
+        </Toolbar>
       </AppBar>
 
       <List className="py-16" dense>
@@ -133,6 +138,20 @@ function BoardSettingsSidebar(props) {
               />
             </div>
           )}
+        </ListItem>
+        <Divider />
+        <ListItem>
+          <div className="flex-1 mb-24 mx-8">
+            <div className="flex items-center mt-16 mb-12">
+              <ListItemIcon className="min-w-40">
+                <Icon className="text-20" color="inherit">
+                  labels
+                </Icon>
+              </ListItemIcon>
+              <Typography className="font-semibold text-16 mx-8">Edit Labels</Typography>
+            </div>
+            {/* {console.log(board)} */}
+          </div>
         </ListItem>
       </List>
     </div>
