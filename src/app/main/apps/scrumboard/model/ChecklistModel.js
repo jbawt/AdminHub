@@ -5,7 +5,7 @@ function ChecklistModel(data) {
   data = data || {};
 
   return _.defaults(data, {
-    id: FuseUtils.generateGUID(),
+    checklist_id: FuseUtils.generateGUID(),
     name: '',
     checkItems: [],
   });

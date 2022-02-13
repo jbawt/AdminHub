@@ -217,6 +217,20 @@ export const renameBoard = createAsyncThunk(
   }
 );
 
+export const updateMembers = createAsyncThunk(
+  'scrumboardApp/board/updateMembers',
+  async ({ newMembers, boardId }) => {
+    const response = await axios.post('/api/scrumboard-app/board/update-members', {
+      newMembers,
+      boardId,
+    });
+
+    const data = await response.data;
+
+    return data;
+  }
+);
+
 const boardsSlice = createSlice({
   name: 'scrumboardApp/boards',
   initialState: null,
@@ -278,6 +292,9 @@ const boardsSlice = createSlice({
         );
         return list;
       });
+    },
+    [updateMembers.fulfilled]: (state, action) => {
+      state.members = action.payload;
     },
   },
 });

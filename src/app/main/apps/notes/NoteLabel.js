@@ -19,7 +19,7 @@ function NoteLabel(props) {
 
   const linkProps = props.linkable
     ? {
-        element:Link,
+        element: Link,
         onClick: (ev) => {
           ev.stopPropagation();
         },
