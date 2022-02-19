@@ -12,16 +12,16 @@ const reorder = (list, startIndex, endIndex) => {
 export default reorder;
 
 export const reorderQuoteMap = (lists, source, destination) => {
-  const current = _.find(lists, { id: source.droppableId });
-  const next = _.find(lists, { id: destination.droppableId });
-  const target = current.idCards[source.index];
+  const current = _.find(lists, { draggableId: source.droppableId });
+  const next = _.find(lists, { draggableId: destination.droppableId });
+  const target = current.draggableCardIds[source.index];
 
   // moving to same list
-  if (source.droppableId === destination.droppableId) {
-    const reordered = reorder(current.idCards, source.index, destination.index);
+  if (source.draggableId === destination.droppableId) {
+    const reordered = reorder(current.draggableCardIds, source.index, destination.index);
     return lists.map((list) => {
-      if (list.id === source.droppableId) {
-        list.idCards = reordered;
+      if (list.draggableId === source.droppableId) {
+        list.draggableCardIds = reordered;
       }
       return list;
     });
@@ -30,15 +30,15 @@ export const reorderQuoteMap = (lists, source, destination) => {
   // moving to different list
 
   // remove from original
-  current.idCards.splice(source.index, 1);
+  current.draggableCardIds.splice(source.index, 1);
   // insert into next
-  next.idCards.splice(destination.index, 0, target);
+  next.draggableCardIds.splice(destination.index, 0, target);
 
   return lists.map((list) => {
-    if (list.id === source.droppableId) {
+    if (list.draggableId === source.droppableId) {
       return current;
     }
-    if (list.id === destination.droppableId) {
+    if (list.draggableId === destination.droppableId) {
       return next;
     }
     return list;

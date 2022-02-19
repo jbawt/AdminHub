@@ -25,7 +25,7 @@ function BoardCard(props) {
 
   const { cardId, index } = props;
 
-  const card = _.find(board.cards, { id: cardId });
+  const card = _.find(board.cards, { draggableId: cardId });
   const checkItemsChecked = getCheckItemsChecked(card);
   const checkItems = getCheckItems(card);
   const commentsCount = getCommentsCount(card);

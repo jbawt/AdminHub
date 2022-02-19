@@ -120,7 +120,7 @@ function Board(props) {
               {(provided) => (
                 <div
                   ref={provided.innerRef}
-                  className="flex container py-16 md:py-24 px-8 md:px-12"
+                  className="flex container py-16 md:py-24 px-8 md:px-12 static"
                 >
                   {board.lists.map((list, index) => (
                     <BoardList key={list.id} list={list} index={index} />
