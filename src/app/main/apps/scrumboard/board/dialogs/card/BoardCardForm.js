@@ -54,16 +54,16 @@ function BoardCardForm(props) {
   }, 600);
 
   const removeAttachment = useDebounce((attachmentId) => {
-    dispatch(deleteAttachment({ attachmentId }));
+    dispatch(deleteAttachment({ attachmentId, cardId: card.id }));
   }, 600);
 
   const makeCover = useDebounce((attachmentId) => {
     dispatch(attachmentCover({ attachmentId, cardId: card.id }));
-  });
+  }, 600);
 
   const removeCover = useDebounce(() => {
     dispatch(removeAttachmentCover({ cardId: card.id }));
-  });
+  }, 600);
 
   const list = card ? _.find(board.lists, (_list) => _list.idCards.includes(card.id)) : null;
 
@@ -173,7 +173,7 @@ function BoardCardForm(props) {
             <DateTimePicker
               value={format(fromUnixTime(getUnixTime(parseISO(cardForm.due))), 'Pp')}
               inputFormat="Pp"
-              onChange={(val) => setValue('due', getUnixTime(val))}
+              onChange={(val) => setValue('due', val.toISOString())}
               renderInput={(_props) => (
                 <TextField
                   label="Due date"
@@ -353,7 +353,10 @@ function BoardCardForm(props) {
                   removeCover={removeCover}
                   removeAttachment={(attachmentId) => {
                     removeAttachment(attachmentId);
-                    setValue('attachments', _.reject(cardForm.attachments, { id: item.id }));
+                    setValue(
+                      'attachments',
+                      _.reject(cardForm.attachments, { attachment_id: item.attachment_id })
+                    );
                   }}
                   key={key}
                 />

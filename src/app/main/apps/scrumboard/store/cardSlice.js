@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import _ from 'lodash';
 import { showMessage } from 'app/store/fuse/messageSlice';
@@ -45,9 +45,10 @@ export const removeCard = createAsyncThunk(
 
 export const deleteAttachment = createAsyncThunk(
   'scrumboardApp/card/removeAttachment',
-  async ({ attachmentId }, { dispatch }) => {
+  async ({ attachmentId, cardId }, { dispatch }) => {
     const response = await axios.post('/api/scrumboard-app/card/remove-attachment', {
       attachmentId,
+      cardId,
     });
 
     const data = await response.data;
@@ -110,7 +111,6 @@ const cardSlice = createSlice({
     [attachmentCover.fulfilled]: (state, action) => {
       const idAttachmentCover = action.payload;
       state.data.idAttachmentCover = idAttachmentCover;
-      console.log(current(state));
     },
     [removeAttachmentCover.fulfilled]: (state, action) => {
       const idAttachmentCover = '';
