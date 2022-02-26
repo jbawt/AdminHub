@@ -23,6 +23,7 @@ import parseISO from 'date-fns/parseISO';
 import { Controller, useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Switch } from '@mui/material';
 import {
   closeCardDialog,
   removeCard,
@@ -30,6 +31,7 @@ import {
   deleteAttachment,
   attachmentCover,
   removeAttachmentCover,
+  subscribeToCard,
 } from '../../../store/cardSlice';
 import CardActivity from './activity/CardActivity';
 import CardAttachment from './attachment/CardAttachment';
@@ -151,6 +153,22 @@ function BoardCardForm(props) {
                 }
               />
             </div>
+            <Tooltip title="Subscribe">
+              <IconButton
+                color="inherit"
+                onClick={() =>
+                  dispatch(subscribeToCard({ cardId: card.id, subscribed: !card.subscribed }))
+                }
+              >
+                <Icon>remove_red_eye</Icon>
+              </IconButton>
+            </Tooltip>
+            <Switch
+              onChange={() => {
+                dispatch(subscribeToCard({ cardId: card.id, subscribed: !card.subscribed }));
+              }}
+              checked={card.subscribed}
+            />
             <IconButton color="inherit" onClick={(ev) => dispatch(closeCardDialog())} size="large">
               <Icon>close</Icon>
             </IconButton>

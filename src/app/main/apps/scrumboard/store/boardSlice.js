@@ -8,7 +8,7 @@ import CardModel from '../model/CardModel';
 import ListModel from '../model/ListModel';
 import reorder, { reorderQuoteMap } from './reorder';
 import { newBoard } from './boardsSlice';
-import { removeCard, updateCard } from './cardSlice';
+import { removeCard, updateCard, subscribeToCard } from './cardSlice';
 
 export const getBoard = createAsyncThunk(
   'scrumboardApp/board/getBoard',
@@ -282,13 +282,18 @@ const boardsSlice = createSlice({
       });
     },
     [removeCard.fulfilled]: (state, action) => {
-      const cardId = action.payload;
+      const { cardId, draggableId } = action.payload;
       state.cards = _.reject(state.cards, { id: cardId });
       state.lists = state.lists.map((list) => {
         _.set(
           list,
           'idCards',
           _.reject(list.idCards, (id) => id === cardId)
+        );
+        _.set(
+          list,
+          'draggableCardIds',
+          _.reject(list.draggableCardIds, (id) => id === draggableId)
         );
         return list;
       });
@@ -307,6 +312,16 @@ const boardsSlice = createSlice({
           .filter((memberId) => memberId !== null);
         card.idMembers = newMemberIds;
         return card;
+      });
+    },
+    [subscribeToCard.fulfilled]: (state, action) => {
+      const { cardId, subscribed } = action.payload;
+      state.cards = state.cards.map((_card) => {
+        if (_card.id === cardId) {
+          _card.subscribed = subscribed;
+          return _card;
+        }
+        return _card;
       });
     },
   },

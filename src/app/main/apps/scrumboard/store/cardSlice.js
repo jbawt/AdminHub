@@ -84,6 +84,20 @@ export const removeAttachmentCover = createAsyncThunk(
   }
 );
 
+export const subscribeToCard = createAsyncThunk(
+  'scrumboardApp/card/subscribe',
+  async ({ cardId, subscribed }, { dispatch }) => {
+    const response = await axios.post('/api/scrumboard-app/card/subscribe', {
+      cardId,
+      subscribed,
+    });
+
+    const data = await response.data;
+
+    return data;
+  }
+);
+
 const cardSlice = createSlice({
   name: 'scrumboardApp/card',
   initialState: {
@@ -115,6 +129,10 @@ const cardSlice = createSlice({
     [removeAttachmentCover.fulfilled]: (state, action) => {
       const idAttachmentCover = '';
       state.data.idAttachmentCover = idAttachmentCover;
+    },
+    [subscribeToCard.fulfilled]: (state, action) => {
+      const { subscribed } = action.payload;
+      state.data.subscribed = subscribed;
     },
   },
 });
