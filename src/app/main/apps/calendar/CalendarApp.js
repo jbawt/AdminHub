@@ -10,6 +10,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import FuseLoading from '@fuse/core/FuseLoading';
 import CalendarHeader from './CalendarHeader';
 import EventDialog from './EventDialog';
 import reducer from './store';
@@ -77,6 +78,7 @@ const StyledAddButton = styled('div')(({ theme }) => ({
 }));
 function CalendarApp(props) {
   const [currentDate, setCurrentDate] = useState();
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const events = useSelector(selectEvents);
   const calendarRef = useRef();
@@ -84,7 +86,7 @@ function CalendarApp(props) {
   const headerEl = useRef(null);
 
   useEffect(() => {
-    dispatch(getEvents());
+    dispatch(getEvents()).then(() => setLoading(false));
   }, [dispatch]);
 
   const handleDateSelect = (selectInfo) => {
@@ -131,9 +133,25 @@ function CalendarApp(props) {
 
   const handleEventAdd = (addInfo) => {};
 
-  const handleEventChange = (changeInfo) => {};
+  const handleEventChange = (changeInfo) => {
+    const { id, title, allDay, start, end, extendedProps } = changeInfo.event;
+    dispatch(
+      updateEvent({
+        id,
+        title,
+        allDay,
+        start,
+        end,
+        extendedProps,
+      })
+    );
+  };
 
   const handleEventRemove = (removeInfo) => {};
+
+  if (loading) {
+    return <FuseLoading />;
+  }
 
   return (
     <Root className="flex flex-col flex-auto relative">
@@ -154,6 +172,8 @@ function CalendarApp(props) {
             selectMirror
             dayMaxEvents
             weekends
+            nowIndicator
+            expandRows
             datesSet={handleDates}
             select={handleDateSelect}
             events={events}
@@ -195,11 +215,12 @@ function CalendarApp(props) {
 }
 
 function renderEventContent(eventInfo) {
-  // delete eventInfo.event._def.url;
   return (
-    <div className="flex items-center">
-      <Typography className="text-12 font-semibold">{eventInfo.timeText}</Typography>
-      <Typography className="text-12 px-4 truncate">{eventInfo.event.title}</Typography>
+    <div className="flex">
+      <Typography className="text-12 font-semibold truncate">
+        {eventInfo.timeText} {eventInfo.event.title}
+      </Typography>
+      {/* <Typography className="text-12 px-4 truncate">{eventInfo.event.title}</Typography> */}
     </div>
   );
 }
