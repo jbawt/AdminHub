@@ -163,7 +163,7 @@ function CalendarApp(props) {
             eventChange={handleEventChange}
             eventRemove={handleEventRemove}
             eventDrop={handleEventDrop}
-            initialDate={new Date(2021, 3, 1)}
+            initialDate={new Date(Date.now())}
             ref={calendarRef}
           />
         </motion.div>
@@ -195,6 +195,7 @@ function CalendarApp(props) {
 }
 
 function renderEventContent(eventInfo) {
+  // delete eventInfo.event._def.url;
   return (
     <div className="flex items-center">
       <Typography className="text-12 font-semibold">{eventInfo.timeText}</Typography>
