@@ -67,6 +67,15 @@ function DetailSidebarContent(props) {
             <th className="font-semibold">Created</th>
             <td>{selectedItem.created}</td>
           </tr>
+
+          <tr className="created h-52">
+            <th className="font-semibold">Web Link</th>
+            <td>
+              <a href={selectedItem.webViewLink} target="_blank" rel="noreferrer">
+                Open in browser
+              </a>
+            </td>
+          </tr>
         </tbody>
       </table>
     </motion.div>
