@@ -140,7 +140,7 @@ function NotificationPanel(props) {
       dispatch(closeNotificationPanel());
     }
     // eslint-disable-next-line
-	}, [location, dispatch]);
+  }, [location, dispatch]);
 
   function handleClose() {
     dispatch(closeNotificationPanel());

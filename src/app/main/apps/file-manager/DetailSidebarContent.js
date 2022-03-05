@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import { selectFileById } from './store/filesSlice';
-import StyledIcon from './StyledIcon';
 
 function DetailSidebarContent(props) {
   const selectedItem = useSelector((state) =>
@@ -23,7 +22,7 @@ function DetailSidebarContent(props) {
     >
       <div className="preview h-128 sm:h-256 file-icon flex items-center justify-center">
         <motion.div initial={{ scale: 0 }} animate={{ scale: 1, transition: { delay: 0.3 } }}>
-          <StyledIcon className="text-48" type={selectedItem.type} />
+          <img src={selectedItem.preview} alt="thumbnail" />
         </motion.div>
       </div>
 
@@ -62,11 +61,6 @@ function DetailSidebarContent(props) {
           <tr className="modified h-52">
             <th className="font-semibold">Modified</th>
             <td>{selectedItem.modified}</td>
-          </tr>
-
-          <tr className="opened h-52">
-            <th className="font-semibold">Opened</th>
-            <td>{selectedItem.opened}</td>
           </tr>
 
           <tr className="created h-52">
