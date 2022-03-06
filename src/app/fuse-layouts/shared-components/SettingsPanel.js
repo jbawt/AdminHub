@@ -16,7 +16,7 @@ const Root = styled('div')(({ theme }) => ({
   position: 'absolute',
   height: 80,
   right: 0,
-  top: 160,
+  top: 1000,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',

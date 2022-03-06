@@ -15,6 +15,34 @@ const StyledIcon = styled(Icon)(({ theme, type }) => ({
       content: "'insert_chart'",
       color: '#4CAF50',
     }),
+    ...((type === 'jpeg' || type === 'jpg') && {
+      content: "'photo'",
+      color: '#d63113',
+    }),
+    ...(type === 'pdf' && {
+      content: "'picture_as_pdf'",
+      color: '#b600c7',
+    }),
+    ...(type === 'text' && {
+      content: "'text_snippet'",
+      color: '#1565C0',
+    }),
+    ...(type === 'zip' && {
+      content: "'local_offer'",
+      color: '#FFB300',
+    }),
+    ...((type === 'webm' || type === 'mp4') && {
+      content: "'movie'",
+      color: '#ed8c05',
+    }),
+    ...((type === 'x-wav' || type === 'mp3') && {
+      content: "'audiotrack'",
+      color: '#3e9c6a',
+    }),
+    ...(type === 'file' && {
+      content: "'text_snippet'",
+      color: '#1565C0',
+    }),
   },
 }));
 

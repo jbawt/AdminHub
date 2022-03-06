@@ -6,15 +6,32 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import FuseLoading from '@fuse/core/FuseLoading';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { setSelectedItem, selectFiles, getFolderFiles } from './store/filesSlice';
 import StyledIcon from './StyledIcon';
 
 function FileList(props) {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const files = useSelector(selectFiles);
   const selectedItemId = useSelector(({ fileManagerApp }) => fileManagerApp.files.selectedItemId);
+
+  const handleFileSelect = (item) => {
+    dispatch(setSelectedItem(item.id));
+    if (item.type === 'folder') {
+      setLoading(true);
+      dispatch(getFolderFiles({ folderId: item.id, folderName: item.name })).then(() =>
+        setLoading(false)
+      );
+    }
+  };
+
+  if (loading) {
+    return <FuseLoading />;
+  }
 
   return (
     <motion.div
@@ -39,12 +56,7 @@ function FileList(props) {
               <TableRow
                 key={item.id}
                 hover
-                onClick={(event) => {
-                  dispatch(setSelectedItem(item.id));
-                  if (item.type === 'folder') {
-                    dispatch(getFolderFiles({ folderId: item.id, folderName: item.name }));
-                  }
-                }}
+                onClick={(event) => handleFileSelect(item)}
                 selected={item.id === selectedItemId}
                 className="cursor-pointer h-64"
               >

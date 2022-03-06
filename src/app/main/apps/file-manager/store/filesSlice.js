@@ -15,14 +15,29 @@ export const getFiles = createAsyncThunk(
 
 export const getFolderFiles = createAsyncThunk(
   'fileManagerApp/files/getFolderFiles',
-  async ({ folderId, folderName }, { dispatch }) => {
+  async ({ folderId, folderName }, { dispatch, getState }) => {
     const response = await axios.post('/api/file-manager-app/folder-files', {
       folderId,
       folderName,
     });
     const data = await response.data;
 
-    dispatch(setSelectedItem(data[0].id));
+    if (data[0] !== undefined) {
+      dispatch(setSelectedItem(data[0].id));
+    }
+
+    return data;
+  }
+);
+
+export const deleteFile = createAsyncThunk(
+  'fileManagerApp/files/delete',
+  async (fileId, { dispatch, getState }) => {
+    const response = await axios.post('/api/file-manager-app/delete', { fileId });
+    const data = await response.data;
+    const newState = await getState();
+
+    dispatch(setSelectedItem(newState.fileManagerApp.files.ids[0]));
 
     return data;
   }
@@ -49,6 +64,7 @@ const filesSlice = createSlice({
   extraReducers: {
     [getFiles.fulfilled]: filesAdapter.setAll,
     [getFolderFiles.fulfilled]: filesAdapter.setAll,
+    [deleteFile.fulfilled]: filesAdapter.removeOne,
   },
 });
 

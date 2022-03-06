@@ -1,5 +1,6 @@
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import Switch from '@mui/material/Switch';
+import { Divider } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
@@ -26,11 +27,13 @@ function DetailSidebarContent(props) {
         </motion.div>
       </div>
 
-      <FormControlLabel
+      {/* <FormControlLabel
         className="offline-switch"
         control={<Switch checked={selectedItem.offline} aria-label="Available Offline" />}
         label="Available Offline"
-      />
+      /> */}
+
+      <Divider />
 
       <Typography variant="subtitle1" className="py-16">
         Info
