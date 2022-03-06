@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
-import { setSelectedItem, selectFiles } from './store/filesSlice';
+import { setSelectedItem, selectFiles, getFolderFiles } from './store/filesSlice';
 import StyledIcon from './StyledIcon';
 
 function FileList(props) {
@@ -39,7 +39,12 @@ function FileList(props) {
               <TableRow
                 key={item.id}
                 hover
-                onClick={(event) => dispatch(setSelectedItem(item.id))}
+                onClick={(event) => {
+                  dispatch(setSelectedItem(item.id));
+                  if (item.type === 'folder') {
+                    dispatch(getFolderFiles({ folderId: item.id, folderName: item.name }));
+                  }
+                }}
                 selected={item.id === selectedItemId}
                 className="cursor-pointer h-64"
               >

@@ -4,9 +4,10 @@ import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
 import withReducer from 'app/store/withReducer';
 import { motion } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { styled } from '@mui/material/styles';
+import FuseLoading from '@fuse/core/FuseLoading';
 import Breadcrumb from './Breadcrumb';
 import DetailSidebarContent from './DetailSidebarContent';
 import DetailSidebarHeader from './DetailSidebarHeader';
@@ -40,6 +41,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 
 function FileManagerApp() {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
   const selectedItem = useSelector((state) =>
     selectFileById(state, state.fileManagerApp.files.selectedItemId)
   );
@@ -47,8 +49,12 @@ function FileManagerApp() {
   const pageLayout = useRef(null);
 
   useEffect(() => {
-    dispatch(getFiles());
+    dispatch(getFiles()).then(() => setLoading(false));
   }, [dispatch]);
+
+  if (loading) {
+    return <FuseLoading />;
+  }
 
   return (
     <Root

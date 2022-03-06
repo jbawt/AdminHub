@@ -22,7 +22,7 @@ function DetailSidebarContent(props) {
     >
       <div className="preview h-128 sm:h-256 file-icon flex items-center justify-center">
         <motion.div initial={{ scale: 0 }} animate={{ scale: 1, transition: { delay: 0.3 } }}>
-          <img src={selectedItem.preview} alt="thumbnail" />
+          <img src={selectedItem.preview} alt="thumbnail" referrerPolicy="no-referrer" />
         </motion.div>
       </div>
 
@@ -58,24 +58,31 @@ function DetailSidebarContent(props) {
             <td>{selectedItem.owner}</td>
           </tr>
 
-          <tr className="modified h-52">
-            <th className="font-semibold">Modified</th>
-            <td>{selectedItem.modified}</td>
-          </tr>
-
           <tr className="created h-52">
             <th className="font-semibold">Created</th>
             <td>{selectedItem.created}</td>
           </tr>
 
-          <tr className="created h-52">
-            <th className="font-semibold">Web Link</th>
-            <td>
-              <a href={selectedItem.webViewLink} target="_blank" rel="noreferrer">
-                Open in browser
-              </a>
-            </td>
+          <tr className="modified h-52">
+            <th className="font-semibold">Modified</th>
+            <td>{selectedItem.modified}</td>
           </tr>
+
+          <tr className="modified h-52">
+            <th className="font-semibold">Last Opened</th>
+            <td>{selectedItem.opened}</td>
+          </tr>
+
+          {selectedItem.webViewLink !== null && (
+            <tr className="created h-52">
+              <th className="font-semibold">Web Link</th>
+              <td>
+                <a href={selectedItem.webViewLink} target="_blank" rel="noreferrer">
+                  Open in browser
+                </a>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </motion.div>
