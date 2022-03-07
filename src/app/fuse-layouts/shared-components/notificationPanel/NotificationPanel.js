@@ -25,7 +25,7 @@ import { closeNotificationPanel, toggleNotificationPanel } from './store/stateSl
 const StyledSwipeableDrawer = styled(SwipeableDrawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
     backgroundColor: theme.palette.background.default,
-    width: 320,
+    width: 280,
   },
 }));
 
@@ -140,7 +140,7 @@ function NotificationPanel(props) {
       dispatch(closeNotificationPanel());
     }
     // eslint-disable-next-line
-  }, [location, dispatch]);
+	}, [location, dispatch]);
 
   function handleClose() {
     dispatch(closeNotificationPanel());

@@ -9,8 +9,6 @@ import { toggleNotificationPanel } from './store/stateSlice';
 
 function NotificationPanelToggleButton(props) {
   const notifications = useSelector(selectNotifications);
-  const state = useSelector(({ notificationPanel }) => notificationPanel.state);
-  console.log(state);
 
   const dispatch = useDispatch();
 
