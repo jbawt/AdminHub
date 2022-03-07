@@ -1,8 +1,20 @@
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import Fab from '@mui/material/Fab';
 import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
-import { Button, Divider, Popover, Stack, TextField, Typography } from '@mui/material';
+import {
+  Button,
+  Divider,
+  InputLabel,
+  MenuItem,
+  Popover,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import withReducer from 'app/store/withReducer';
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
@@ -16,7 +28,7 @@ import FileList from './FileList';
 import MainSidebarContent from './MainSidebarContent';
 import MainSidebarHeader from './MainSidebarHeader';
 import reducer from './store';
-import { selectFileById, getFiles } from './store/filesSlice';
+import { selectFileById, getFiles, selectFiles } from './store/filesSlice';
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   '& .FusePageSimple-header': {
@@ -45,6 +57,8 @@ function FileManagerApp() {
   const [loading, setLoading] = useState(true);
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [folder, setFolder] = useState('Root Folder');
+  const files = useSelector(selectFiles);
   const selectedItem = useSelector((state) =>
     selectFileById(state, state.fileManagerApp.files.selectedItemId)
   );
@@ -72,6 +86,11 @@ function FileManagerApp() {
   const handleNewFileClose = () => {
     setAnchorEl(null);
     setPopoverOpen(false);
+    setFolder('Root Folder');
+  };
+
+  const handleFolderSelect = (event) => {
+    setFolder(event.target.value);
   };
 
   return (
@@ -128,7 +147,28 @@ function FileManagerApp() {
                   </div>
                   <Divider />
                   <Typography variant="h5">Upload File</Typography>
-                  <TextField className="w-max" type="text" placeholder="Choose a folder" />
+                  <InputLabel id="folder-selection-label">Select Folder</InputLabel>
+                  <Select
+                    labelId="folder-selection-label"
+                    id="folder-selection"
+                    value={folder}
+                    onChange={handleFolderSelect}
+                  >
+                    <MenuItem value="Root Folder">Root Folder (default)</MenuItem>
+                    {files.map((file, key) => {
+                      if (file.type === 'folder') {
+                        return (
+                          <MenuItem key={key} value={file}>
+                            {file.name}
+                          </MenuItem>
+                        );
+                      }
+                    })}
+                  </Select>
+                  <div className="flex items-center space-x-20">
+                    <input type="file" />
+                    <Button variant="contained">Upload</Button>
+                  </div>
                 </Stack>
               </div>
             </Popover>

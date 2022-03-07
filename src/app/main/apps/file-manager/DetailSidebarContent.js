@@ -78,10 +78,10 @@ function DetailSidebarContent(props) {
 
           {selectedItem.webViewLink !== null && (
             <tr className="created h-52">
-              <th className="font-semibold">Web Link</th>
+              <th className="font-semibold">Link</th>
               <td>
                 <a href={selectedItem.webViewLink} target="_blank" rel="noreferrer">
-                  Open in browser
+                  Open in new tab
                 </a>
               </td>
             </tr>

@@ -35,7 +35,7 @@ const StyledIcon = styled(Icon)(({ theme, type }) => ({
       content: "'movie'",
       color: '#ed8c05',
     }),
-    ...((type === 'x-wav' || type === 'mp3') && {
+    ...((type === 'x-wav' || type === 'mp3' || type === 'mpeg') && {
       content: "'audiotrack'",
       color: '#3e9c6a',
     }),
