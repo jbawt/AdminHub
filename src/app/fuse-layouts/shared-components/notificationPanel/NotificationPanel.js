@@ -9,12 +9,12 @@ import { useSnackbar } from 'notistack';
 import { useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import NotificationModel from './model/NotificationModel';
+// import NotificationModel from './model/NotificationModel';
 import NotificationCard from './NotificationCard';
-import NotificationTemplate from './NotificationTemplate';
+// import NotificationTemplate from './NotificationTemplate';
 import {
   getNotifications,
-  addNotification,
+  // addNotification,
   dismissAll,
   dismissItem,
   selectNotifications,
@@ -56,84 +56,84 @@ function NotificationPanel(props) {
     /*
 		Add Notifications for demonstration
 		 */
-    function createNotification(obj) {
-      dispatch(addNotification(NotificationModel(obj)));
-    }
+    // function createNotification(obj) {
+    //   dispatch(addNotification(NotificationModel(obj)));
+    // }
 
-    setTimeout(
-      () =>
-        createNotification({
-          message: 'Great Job! this is awesome.',
-          options: { variant: 'success' },
-        }),
-      4000
-    );
+    // setTimeout(
+    //   () =>
+    //     createNotification({
+    //       message: 'Great Job! this is awesome.',
+    //       options: { variant: 'success' },
+    //     }),
+    //   4000
+    // );
 
-    setTimeout(
-      () =>
-        createNotification({ message: 'Hey there is a problem!', options: { variant: 'error' } }),
-      6000
-    );
+    // setTimeout(
+    //   () =>
+    //     createNotification({ message: 'Hey there is a problem!', options: { variant: 'error' } }),
+    //   6000
+    // );
 
-    setTimeout(
-      () =>
-        createNotification({
-          message: 'There might be a problem here!',
-          options: { variant: 'warning' },
-        }),
-      8000
-    );
+    // setTimeout(
+    //   () =>
+    //     createNotification({
+    //       message: 'There might be a problem here!',
+    //       options: { variant: 'warning' },
+    //     }),
+    //   8000
+    // );
 
-    setTimeout(
-      () =>
-        createNotification({
-          message: 'This is some general information.',
-          options: { variant: 'info' },
-        }),
-      10000
-    );
+    // setTimeout(
+    //   () =>
+    //     createNotification({
+    //       message: 'This is some general information.',
+    //       options: { variant: 'info' },
+    //     }),
+    //   10000
+    // );
   }, [dispatch]);
 
-  useEffect(() => {
-    notifications.forEach((item) => {
-      const { id: key, message, options = {}, dismissed = false } = item;
+  // useEffect(() => {
+  //   notifications.forEach((item) => {
+  //     const { id: key, message, options = {}, dismissed = false } = item;
 
-      if (dismissed) {
-        // dismiss snackbar using notistack
-        closeSnackbar(key);
-        return;
-      }
-      // do nothing if snackbar is already displayed
-      if (displayed.includes(key)) {
-        return;
-      }
+  //     if (dismissed) {
+  //       // dismiss snackbar using notistack
+  //       closeSnackbar(key);
+  //       return;
+  //     }
+  //     // do nothing if snackbar is already displayed
+  //     if (displayed.includes(key)) {
+  //       return;
+  //     }
 
-      // display snackbar using notistack
-      enqueueSnackbar(message, {
-        key,
-        ...options,
-        // autoHideDuration: 3000,
-        content: () => (
-          <NotificationTemplate
-            item={item}
-            onClose={() => {
-              closeSnackbar(key);
-              dispatch(dismissItem(key));
-            }}
-          />
-        ),
-        onClose: (event, reason, myKey) => {
-          if (options.onClose) {
-            options.onClose(event, reason, myKey);
-          }
-        },
-        onExited: (event, myKey) => {},
-      });
+  //     // display snackbar using notistack
+  //     enqueueSnackbar(message, {
+  //       key,
+  //       ...options,
+  //       // autoHideDuration: 3000,
+  //       content: () => (
+  //         <NotificationTemplate
+  //           item={item}
+  //           onClose={() => {
+  //             closeSnackbar(key);
+  //             dispatch(dismissItem(key));
+  //           }}
+  //         />
+  //       ),
+  //       onClose: (event, reason, myKey) => {
+  //         if (options.onClose) {
+  //           options.onClose(event, reason, myKey);
+  //         }
+  //       },
+  //       onExited: (event, myKey) => {},
+  //     });
 
-      // keep track of snackbars that we've displayed
-      storeDisplayed(key);
-    });
-  }, [notifications, closeSnackbar, enqueueSnackbar, dispatch]);
+  //     // keep track of snackbars that we've displayed
+  //     storeDisplayed(key);
+  //   });
+  // }, [notifications, closeSnackbar, enqueueSnackbar, dispatch]);
 
   useEffect(() => {
     if (state) {

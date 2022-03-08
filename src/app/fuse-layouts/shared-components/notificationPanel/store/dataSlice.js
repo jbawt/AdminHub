@@ -11,7 +11,6 @@ export const getNotifications = createAsyncThunk('notificationPanel/data/getData
 const notificationsAdapter = createEntityAdapter({});
 
 const initialState = notificationsAdapter.upsertMany(notificationsAdapter.getInitialState(), []);
-console.log(notificationsAdapter.getInitialState());
 
 export const { selectAll: selectNotifications, selectById: selectNotificationsById } =
   notificationsAdapter.getSelectors((state) => state.notificationPanel.data);

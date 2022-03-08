@@ -43,6 +43,28 @@ export const deleteFile = createAsyncThunk(
   }
 );
 
+export const createFolder = createAsyncThunk(
+  'fileManagerApp/files/newFolder',
+  async (folderName, { dispatch }) => {
+    const response = await axios.post('/api/file-manager-app/new-folder', { folderName });
+    const data = await response.data;
+
+    dispatch(getFiles());
+
+    return data;
+  }
+);
+
+export const uploadFile = createAsyncThunk(
+  'fileManagerApp/files/uploadFile',
+  async (fileData, { dispatch }) => {
+    const response = await axios.post('/api/file-manager-app/new-file', fileData);
+    const data = await response.data;
+
+    return data;
+  }
+);
+
 const filesAdapter = createEntityAdapter({});
 
 export const {

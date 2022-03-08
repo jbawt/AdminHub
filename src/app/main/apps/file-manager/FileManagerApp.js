@@ -27,8 +27,15 @@ import DetailSidebarHeader from './DetailSidebarHeader';
 import FileList from './FileList';
 import MainSidebarContent from './MainSidebarContent';
 import MainSidebarHeader from './MainSidebarHeader';
+import SelectFile from './SelectFile';
 import reducer from './store';
-import { selectFileById, getFiles, selectFiles } from './store/filesSlice';
+import {
+  selectFileById,
+  getFiles,
+  selectFiles,
+  createFolder,
+  uploadFile,
+} from './store/filesSlice';
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   '& .FusePageSimple-header': {
@@ -57,7 +64,9 @@ function FileManagerApp() {
   const [loading, setLoading] = useState(true);
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [newFolder, setNewFolder] = useState('');
   const [folder, setFolder] = useState('Root Folder');
+  const [newFile, setNewFile] = useState(null);
   const files = useSelector(selectFiles);
   const selectedItem = useSelector((state) =>
     selectFileById(state, state.fileManagerApp.files.selectedItemId)
@@ -87,10 +96,27 @@ function FileManagerApp() {
     setAnchorEl(null);
     setPopoverOpen(false);
     setFolder('Root Folder');
+    setNewFolder('');
+    setNewFile(null);
   };
 
   const handleFolderSelect = (event) => {
     setFolder(event.target.value);
+  };
+
+  const handleCreateFolder = () => {
+    setLoading(true);
+    dispatch(createFolder(newFolder)).then(() => setLoading(false));
+    setPopoverOpen(false);
+  };
+
+  const handleFileUpload = () => {
+    const fileData = {
+      folder,
+      newFile,
+    };
+
+    dispatch(uploadFile(fileData));
   };
 
   return (
@@ -142,8 +168,14 @@ function FileManagerApp() {
                 <Stack spacing={2}>
                   <Typography variant="h5">Create New Folder</Typography>
                   <div className="flex items-center space-x-20">
-                    <TextField type="text" />
-                    <Button variant="contained">Create</Button>
+                    <TextField
+                      type="text"
+                      value={newFolder}
+                      onChange={(e) => setNewFolder(e.target.value)}
+                    />
+                    <Button variant="contained" onClick={handleCreateFolder}>
+                      Create
+                    </Button>
                   </div>
                   <Divider />
                   <Typography variant="h5">Upload File</Typography>
@@ -166,8 +198,11 @@ function FileManagerApp() {
                     })}
                   </Select>
                   <div className="flex items-center space-x-20">
-                    <input type="file" />
-                    <Button variant="contained">Upload</Button>
+                    <SelectFile type="file" onChange={(data) => setNewFile(data)} />
+                    {newFile && <p>{newFile.metaData.name}</p>}
+                    <Button variant="contained" onClick={handleFileUpload}>
+                      Upload
+                    </Button>
                   </div>
                 </Stack>
               </div>

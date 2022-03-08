@@ -35,6 +35,7 @@
         "draftjs-to-html": "0.9.1",
         "firebase": "9.6.1",
         "framer-motion": "5.5.1",
+        "fs": "^0.0.1-security",
         "google-map-react": "2.1.10",
         "history": "5.1.0",
         "i18next": "21.6.0",
