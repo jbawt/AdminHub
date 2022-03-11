@@ -106,7 +106,7 @@ function MailAppSidebarContent(props) {
             ))}
         </List>
 
-        <List>
+        {/* <List>
           <ListSubheader className="pl-12" disableSticky>
             {t('LABELS')}
           </ListSubheader>
@@ -125,7 +125,7 @@ function MailAppSidebarContent(props) {
                 <ListItemText primary={label.title} disableTypography />
               </StyledListItem>
             ))}
-        </List>
+        </List> */}
       </div>
     </motion.div>
   );

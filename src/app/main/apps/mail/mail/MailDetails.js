@@ -63,7 +63,7 @@ function MailDetails(props) {
       >
         <div className="flex items-start justify-between">
           <div className="flex items-center justify-start">
-            {mail.from.avatar ? (
+            {mail.from.avatar !== null ? (
               <Avatar alt={mail.from.name} src={mail.from.avatar} />
             ) : (
               <Avatar>{mail.from.name[0]}</Avatar>

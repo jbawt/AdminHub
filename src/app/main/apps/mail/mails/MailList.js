@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import withRouter from '@fuse/core/withRouter';
 import { useDeepCompareEffect } from '@fuse/hooks';
+import FuseLoading from '@fuse/core/FuseLoading';
 import { getMails, selectMails } from '../store/mailsSlice';
 import MailListItem from './MailListItem';
 
@@ -15,13 +16,14 @@ function MailList(props) {
   const dispatch = useDispatch();
   const mails = useSelector(selectMails);
   const searchText = useSelector(({ mailApp }) => mailApp.mails.searchText);
+  const [loading, setLoading] = useState(true);
 
   const routeParams = useParams();
   const [filteredData, setFilteredData] = useState(null);
   const { t } = useTranslation('mailApp');
 
   useDeepCompareEffect(() => {
-    dispatch(getMails(routeParams));
+    dispatch(getMails(routeParams)).then(() => setLoading(false));
   }, [dispatch, routeParams]);
 
   useEffect(() => {
@@ -39,6 +41,10 @@ function MailList(props) {
 
   if (!filteredData) {
     return null;
+  }
+
+  if (loading) {
+    return <FuseLoading />;
   }
 
   if (filteredData.length === 0) {
@@ -70,7 +76,7 @@ function MailList(props) {
 
   return (
     <List className="p-0">
-      <motion.div variants={container} initial="hidden" animate="show" v>
+      <motion.div variants={container} initial="hidden" animate="show" v="true">
         {filteredData.map((mail) => (
           <motion.div variants={item} key={mail.id}>
             <MailListItem mail={mail} />

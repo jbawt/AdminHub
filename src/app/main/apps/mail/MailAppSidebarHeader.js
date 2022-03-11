@@ -1,6 +1,6 @@
 import Icon from '@mui/material/Icon';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
+// import MenuItem from '@mui/material/MenuItem';
+// import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
@@ -42,7 +42,7 @@ function MailAppSidebarHeader(props) {
         </Typography>
       </div>
 
-      <motion.div
+      {/* <motion.div
         initial={{ y: 20, opacity: 0.8 }}
         animate={{ y: 0, opacity: 1, transition: { delay: 0.3 } }}
       >
@@ -63,7 +63,7 @@ function MailAppSidebarHeader(props) {
             </MenuItem>
           ))}
         </TextField>
-      </motion.div>
+      </motion.div> */}
     </div>
   );
 }

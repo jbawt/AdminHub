@@ -56,7 +56,7 @@ const MailListItem = (props) => {
         />
 
         <div className="px-8 order-first sm:order-none">
-          {props.mail.from.avatar ? (
+          {props.mail.from.avatar !== null ? (
             <Avatar alt={props.mail.from.name} src={props.mail.from.avatar} />
           ) : (
             <Avatar
