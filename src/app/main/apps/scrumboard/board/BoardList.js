@@ -52,7 +52,7 @@ function BoardList(props) {
                 <Droppable droppableId={props.list.draggableId} type="card" direction="vertical">
                   {(_provided) => (
                     <div ref={_provided.innerRef} className="flex flex-col w-full h-full p-16">
-                      {props.list.draggableCardIds.map((cardId, index) => (
+                      {props.list?.draggableCardIds?.map((cardId, index) => (
                         <BoardCard key={cardId} cardId={cardId} index={index} list={props.list} />
                       ))}
                       {_provided.placeholder}
