@@ -8,7 +8,12 @@ import { useMemo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ContactsMultiSelectMenu from './ContactsMultiSelectMenu';
 import ContactsTable from './ContactsTable';
-import { toggleStarredContact, selectContacts } from './store/contactsSlice';
+import {
+  toggleStarredContact,
+  selectContacts,
+  removeContact,
+  openEditContactDialog,
+} from './store/contactsSlice';
 
 function ContactsList(props) {
   const dispatch = useDispatch();
@@ -89,7 +94,7 @@ function ContactsList(props) {
                 <Icon>star_border</Icon>
               )}
             </IconButton>
-            {/* <IconButton
+            <IconButton
               onClick={(ev) => {
                 ev.stopPropagation();
                 dispatch(removeContact(row.original.id));
@@ -97,7 +102,7 @@ function ContactsList(props) {
               size="large"
             >
               <Icon>delete</Icon>
-            </IconButton> */}
+            </IconButton>
           </div>
         ),
       },
@@ -141,11 +146,11 @@ function ContactsList(props) {
       <ContactsTable
         columns={columns}
         data={filteredData}
-        // onRowClick={(ev, row) => {
-        //   if (row) {
-        //     dispatch(openEditContactDialog(row.original));
-        //   }
-        // }}
+        onRowClick={(ev, row) => {
+          if (row) {
+            dispatch(openEditContactDialog(row.original));
+          }
+        }}
       />
     </motion.div>
   );

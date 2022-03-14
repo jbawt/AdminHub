@@ -1,7 +1,7 @@
 import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
 import { styled } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
-// import Button from '@mui/material/Button';
+import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Icon from '@mui/material/Icon';
 import List from '@mui/material/List';
@@ -11,7 +11,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
-// import { openNewContactDialog } from './store/contactsSlice';
+import { openNewContactDialog } from './store/contactsSlice';
 
 const StyledListItem = styled(ListItem)(({ theme }) => ({
   color: 'inherit!important',
@@ -60,7 +60,7 @@ function ContactsSidebarContent(props) {
 
         <Divider />
 
-        {/* <div className="p-24">
+        <div className="p-24">
           <Button
             variant="contained"
             color="secondary"
@@ -69,7 +69,7 @@ function ContactsSidebarContent(props) {
           >
             New Contact
           </Button>
-        </div> */}
+        </div>
 
         <List className="pt-5 px-12">
           <StyledListItem
