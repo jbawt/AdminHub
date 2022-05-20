@@ -16,7 +16,7 @@ const routes = [
   ...FuseUtils.generateRoutesFromConfigs(routeConfigs, ['admin', 'staff', 'user']),
   {
     path: '/',
-    element: <Navigate to="apps/todo/incomplete" />,
+    element: <Navigate to="apps/dashboards/project" />,
   },
   {
     path: 'loading',

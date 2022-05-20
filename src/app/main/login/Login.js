@@ -86,7 +86,7 @@ function Login() {
                 className="min-w-0"
                 label="JWT"
               />
-              <Tab
+              {/* <Tab
                 icon={
                   <img className="h-40" src="assets/images/logos/firebase.svg" alt="firebase" />
                 }
@@ -97,7 +97,7 @@ function Login() {
                 icon={<img className="h-40" src="assets/images/logos/auth0.svg" alt="auth0" />}
                 className="min-w-0"
                 label="Auth0"
-              />
+              /> */}
             </Tabs>
 
             {selectedTab === 0 && <JWTLoginTab />}
@@ -123,7 +123,7 @@ function Login() {
             >
               <Typography variant="h3" color="inherit" className="font-semibold leading-tight">
                 Welcome <br />
-                to the <br /> FUSE React!
+                to <br /> AdminHub!
               </Typography>
             </motion.div>
 
@@ -132,8 +132,7 @@ function Login() {
               animate={{ opacity: 1, transition: { delay: 0.3 } }}
             >
               <Typography variant="subtitle1" color="inherit" className="mt-32">
-                Powerful and professional admin template for Web Applications, CRM, CMS, Admin
-                Panels and more.
+                A powerful admin site to stay on top of your work.
               </Typography>
             </motion.div>
           </div>
