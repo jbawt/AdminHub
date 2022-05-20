@@ -19,10 +19,15 @@ function WidgetWeather(props) {
           <Icon>more_vert</Icon>
         </IconButton>
       </div>
-      <div className="flex items-center justify-center p-20 pb-32">
-        <Icon className="meteocons text-40 ltr:mr-8 rtl:ml-8" color="action">
-          {props.widget.locations[props.widget.currentLocation].icon}
-        </Icon>
+      <div className="flex items-center justify-center p-20 pb-16">
+        <div className="meteocons text-30 ltr:mr-8 rtl:ml-8">
+          <img
+            src={`https://www.weatherbit.io/static/img/icons/${
+              props.widget.locations[props.widget.currentLocation].icon
+            }.png`}
+            alt="weather icon"
+          />
+        </div>
         <Typography className="text-44 mx-8 font-medium tracking-tighter" color="textSecondary">
           {props.widget.locations[props.widget.currentLocation].temp[props.widget.tempUnit]}
         </Typography>
@@ -31,6 +36,11 @@ function WidgetWeather(props) {
         </Typography>
         <Typography className="text-44" color="textSecondary">
           C
+        </Typography>
+      </div>
+      <div className="flex items-center justify-center pt-5 pb-32">
+        <Typography className="text-16 mx-8 font-medium" color="textSecondary">
+          {props.widget.locations[props.widget.currentLocation].description}
         </Typography>
       </div>
       <Divider />
@@ -69,9 +79,11 @@ function WidgetWeather(props) {
           <div className="flex items-center justify-between w-full py-16 px-24" key={day.name}>
             <Typography className="text-15 font-medium">{day.name}</Typography>
             <div className="flex items-center">
-              <Icon className="meteocons text-24 ltr:mr-16 rtl:ml-16" color="action">
-                {day.icon}
-              </Icon>
+              <img
+                className="meteocons w-48 h-48 ltr:mr-16 rtl:ml-16"
+                src={`https://www.weatherbit.io/static/img/icons/${day.icon}.png`}
+                alt="weather icon"
+              />
               <Typography className="text-20 font-medium tracking-tighter">
                 {day.temp[props.widget.tempUnit]}
               </Typography>

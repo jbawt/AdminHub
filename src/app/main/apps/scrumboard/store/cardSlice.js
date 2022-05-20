@@ -86,10 +86,11 @@ export const removeAttachmentCover = createAsyncThunk(
 
 export const subscribeToCard = createAsyncThunk(
   'scrumboardApp/card/subscribe',
-  async ({ cardId, subscribed }, { dispatch }) => {
+  async ({ cardId, subscribed, boardId }, { dispatch }) => {
     const response = await axios.post('/api/scrumboard-app/card/subscribe', {
       cardId,
       subscribed,
+      boardId,
     });
 
     const data = await response.data;

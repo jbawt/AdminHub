@@ -1,15 +1,16 @@
 import FusePageCarded from '@fuse/core/FusePageCarded';
 import withReducer from 'app/store/withReducer';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import { styled } from '@mui/material/styles';
+import FuseLoading from '@fuse/core/FuseLoading';
 import reducer from './store';
 import { getLabels } from './store/labelsSlice';
 import { getFilters } from './store/filtersSlice';
 import { getFolders } from './store/foldersSlice';
-import { getTodos } from './store/todosSlice';
+import { getTodos, getIncompleteCount } from './store/todosSlice';
 import TodoDialog from './TodoDialog';
 import TodoHeader from './TodoHeader';
 import TodoList from './TodoList';
@@ -32,6 +33,7 @@ const Root = styled(FusePageCarded)(({ theme }) => ({
 function TodoApp(props) {
   const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(true);
   const pageLayout = useRef(null);
   const routeParams = useParams();
 
@@ -43,7 +45,12 @@ function TodoApp(props) {
 
   useDeepCompareEffect(() => {
     dispatch(getTodos(routeParams));
+    dispatch(getIncompleteCount()).then(() => setLoading(false));
   }, [dispatch, routeParams]);
+
+  if (loading) {
+    return <FuseLoading />;
+  }
 
   return (
     <>

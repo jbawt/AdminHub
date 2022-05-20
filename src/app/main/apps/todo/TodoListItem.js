@@ -7,7 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLabelsEntities } from './store/labelsSlice';
-import { updateTodo, openEditTodoDialog } from './store/todosSlice';
+import { updateTodo, openEditTodoDialog, getIncompleteCount } from './store/todosSlice';
 
 import TodoChip from './TodoChip';
 
@@ -46,6 +46,7 @@ function TodoListItem(props) {
               completed: !props.todo.completed,
             })
           );
+          dispatch(getIncompleteCount());
         }}
         size="large"
       >

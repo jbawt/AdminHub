@@ -5,12 +5,18 @@ import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import { memo, useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
+import { useNavigate } from 'react-router-dom';
 
 function Widget1(props) {
   const [currentRange, setCurrentRange] = useState(props.widget.currentRange);
+  const navigate = useNavigate();
 
   function handleChangeRange(ev) {
     setCurrentRange(ev.target.value);
+  }
+
+  function goToDue() {
+    navigate('/apps/todo/filter/today');
   }
 
   return (
@@ -34,8 +40,8 @@ function Widget1(props) {
             );
           })}
         </Select>
-        <IconButton aria-label="more" size="large">
-          <Icon>more_vert</Icon>
+        <IconButton onClick={goToDue} aria-label="more" size="large">
+          <Icon>arrow_forward</Icon>
         </IconButton>
       </div>
       <div className="text-center py-12">

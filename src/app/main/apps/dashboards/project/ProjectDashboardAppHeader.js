@@ -7,41 +7,58 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from '@lodash';
 import { Box } from '@mui/system';
-import { getProjects, selectProjects } from './store/projectsSlice';
-import { selectWidgets } from './store/widgetsSlice';
+import { selectProjects } from './store/projectsSlice';
+import { getWidgets, selectWidgets } from './store/widgetsSlice';
 
 function ProjectDashboardAppHeader(props) {
-  const { pageLayout } = props;
+  const { pageLayout, selectedProject, setSelectedProject } = props;
 
   const dispatch = useDispatch();
   const widgets = useSelector(selectWidgets);
   const projects = useSelector(selectProjects);
   const user = useSelector(({ auth }) => auth.user);
 
-  const [selectedProject, setSelectedProject] = useState({
-    id: 1,
-    menuEl: null,
-  });
+  // const [selectedProject, setSelectedProject] = useState({
+  //   id: null,
+  //   menuEl: null,
+  //   fullName: null,
+  // });
 
-  useEffect(() => {
-    dispatch(getProjects());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getProjects())
+  //     .then((data) => {
+  //       const repo = data.payload;
+  //       setSelectedProject({
+  //         id: repo.length > 0 ? repo[0].id : null,
+  //         menuEl: null,
+  //         fullName: repo.length > 0 ? repo[0].fullName : null,
+  //       });
+  //     })
+  //     .then(() => {
+  //       dispatch(getWidgets(selectedProject)).then(() => setLoading(false));
+  //     });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [dispatch]);
 
-  function handleChangeProject(id) {
+  function handleChangeProject(id, fullName) {
     setSelectedProject({
       id,
       menuEl: null,
+      fullName,
     });
+
+    dispatch(getWidgets({ fullName }));
   }
 
   function handleOpenProjectMenu(event) {
     setSelectedProject({
       id: selectedProject.id,
       menuEl: event.currentTarget,
+      fullName: selectedProject.fullName,
     });
   }
 
@@ -49,12 +66,13 @@ function ProjectDashboardAppHeader(props) {
     setSelectedProject({
       id: selectedProject.id,
       menuEl: null,
+      fullName: selectedProject.fullName,
     });
   }
 
-  if (_.isEmpty(projects)) {
-    return null;
-  }
+  // if (_.isEmpty(projects)) {
+  //   return null;
+  // }
 
   return (
     <div className="flex flex-col justify-between flex-1 min-w-0 px-24 pt-24">
@@ -77,7 +95,8 @@ function ProjectDashboardAppHeader(props) {
             <div className="flex items-center opacity-60 truncate">
               <Icon className="text-14 sm:text-24">notifications</Icon>
               <Typography className="text-12 sm:text-14 font-medium mx-4 truncate">
-                You have 2 new messages and 15 new tasks
+                You 2 notifications and 15 new tasks - will make dynamic when chat app and
+                notifications are done.
               </Typography>
             </div>
           </div>
@@ -103,7 +122,7 @@ function ProjectDashboardAppHeader(props) {
               borderRadius: '16px 0 0 0',
             }}
           >
-            {_.find(projects, ['id', selectedProject.id]).name}
+            {_.find(projects, ['id', selectedProject?.id])?.name}
           </Box>
           <IconButton
             className="h-40 w-40 p-0"
@@ -131,12 +150,13 @@ function ProjectDashboardAppHeader(props) {
                 <MenuItem
                   key={project.id}
                   onClick={(ev) => {
-                    handleChangeProject(project.id);
+                    handleChangeProject(project.id, project.fullName);
                   }}
                 >
                   {project.name}
                 </MenuItem>
               ))}
+            {projects.length === 0 && <MenuItem>No Subscribed Scrumboards</MenuItem>}
           </Menu>
         </div>
       </div>

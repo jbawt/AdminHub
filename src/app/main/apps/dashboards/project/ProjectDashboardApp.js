@@ -7,13 +7,15 @@ import _ from '@lodash';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
+import FuseLoading from '@fuse/core/FuseLoading';
 import ProjectDashboardAppHeader from './ProjectDashboardAppHeader';
 import ProjectDashboardAppSidebar from './ProjectDashboardAppSidebar';
 import reducer from './store';
 import { getWidgets, selectWidgets } from './store/widgetsSlice';
-import BudgetSummaryTab from './tabs/BudgetSummaryTab';
+import { getProjects } from './store/projectsSlice';
+// import BudgetSummaryTab from './tabs/BudgetSummaryTab';
 import HomeTab from './tabs/HomeTab';
-import TeamMembersTab from './tabs/TeamMembersTab';
+// import TeamMembersTab from './tabs/TeamMembersTab';
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   '& .FusePageSimple-header': {
@@ -48,10 +50,36 @@ function ProjectDashboardApp(props) {
 
   const pageLayout = useRef(null);
   const [tabValue, setTabValue] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  const [selectedProject, setSelectedProject] = useState({
+    id: null,
+    menuEl: null,
+    fullName: null,
+  });
 
   useEffect(() => {
-    dispatch(getWidgets());
+    dispatch(getProjects())
+      .then((data) => {
+        const repo = data.payload;
+        setSelectedProject({
+          id: repo.length > 0 ? repo[0].id : null,
+          menuEl: null,
+          fullName: repo.length > 0 ? repo[0].fullName : null,
+        });
+        return repo;
+      })
+      .then((repo) => {
+        dispatch(getWidgets(repo[0])).then(() => setLoading(false));
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
+
+  // useEffect(() => {
+  //   dispatch(getWidgets()).then(() => {
+  //     setLoading(false);
+  //   });
+  // }, [dispatch]);
 
   function handleChangeTab(event, value) {
     setTabValue(value);
@@ -61,9 +89,19 @@ function ProjectDashboardApp(props) {
     return null;
   }
 
+  if (loading) {
+    return <FuseLoading />;
+  }
+
   return (
     <Root
-      header={<ProjectDashboardAppHeader pageLayout={pageLayout} />}
+      header={
+        <ProjectDashboardAppHeader
+          pageLayout={pageLayout}
+          selectedProject={selectedProject}
+          setSelectedProject={setSelectedProject}
+        />
+      }
       contentToolbar={
         <Tabs
           value={tabValue}
@@ -88,11 +126,11 @@ function ProjectDashboardApp(props) {
             disableRipple
             label="Home"
           />
-          <Tab
+          {/* <Tab
             className="text-14 font-semibold min-h-40 min-w-64 mx-4 px-12"
             disableRipple
             label="Budget Summary"
-          />
+          /> */}
           <Tab
             className="text-14 font-semibold min-h-40 min-w-64 mx-4 px-12"
             disableRipple
@@ -103,8 +141,8 @@ function ProjectDashboardApp(props) {
       content={
         <div className="p-12 lg:ltr:pr-0 lg:rtl:pl-0">
           {tabValue === 0 && <HomeTab />}
-          {tabValue === 1 && <BudgetSummaryTab />}
-          {tabValue === 2 && <TeamMembersTab />}
+          {/* {tabValue === 1 && <BudgetSummaryTab />}
+          {tabValue === 2 && <TeamMembersTab />} */}
         </div>
       }
       rightSidebarContent={<ProjectDashboardAppSidebar />}

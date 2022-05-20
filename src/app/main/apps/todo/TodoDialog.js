@@ -22,6 +22,7 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
@@ -32,6 +33,7 @@ import {
   closeNewTodoDialog,
   closeEditTodoDialog,
   updateTodo,
+  restoreTodo,
 } from './store/todosSlice';
 
 const defaultValues = {
@@ -133,10 +135,19 @@ function TodoDialog(props) {
     });
   }
 
+  /**
+   * Restore Event
+   */
+  function handleRestore() {
+    dispatch(restoreTodo(formId)).then(() => {
+      closeTodoDialog();
+    });
+  }
+
   return (
     <Dialog {...todoDialog.props} onClose={closeTodoDialog} fullWidth maxWidth="sm" scroll="body">
       <AppBar position="static" elevation={0}>
-        <Toolbar className="flex w-full">
+        <Toolbar className="flex justify-between w-full">
           <Typography variant="subtitle1" color="inherit">
             {todoDialog.type === 'new' ? 'New Todo' : 'Edit Todo'}
           </Typography>
@@ -154,7 +165,9 @@ function TodoDialog(props) {
                     <IconButton
                       tabIndex={-1}
                       disableRipple
-                      onClick={(ev) => onChange(!value)}
+                      onClick={(ev) => {
+                        onChange(!value);
+                      }}
                       size="large"
                     >
                       {value ? (
@@ -368,9 +381,19 @@ function TodoDialog(props) {
                 Save
               </Button>
             </div>
-            <IconButton className="min-w-auto" onClick={handleRemove} size="large">
-              <Icon>delete</Icon>
-            </IconButton>
+            {todoDialog.type === 'edit' && todoDialog.data?.deleted === false ? (
+              <Tooltip title="Delete To-Do" placement="left">
+                <IconButton className="min-w-auto" onClick={handleRemove} size="large">
+                  <Icon>delete</Icon>
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <Tooltip title="Restore To-Do" placement="left">
+                <IconButton className="min-w-auto" onClick={handleRestore} size="large">
+                  <Icon>restore</Icon>
+                </IconButton>
+              </Tooltip>
+            )}
           </DialogActions>
         )}
       </form>

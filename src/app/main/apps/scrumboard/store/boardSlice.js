@@ -16,6 +16,7 @@ export const getBoard = createAsyncThunk(
     try {
       const response = await axios.get('/api/scrumboard-app/board', { params });
       const data = await response.data;
+
       return data;
     } catch (error) {
       dispatch(
@@ -91,6 +92,26 @@ export const reorderCard = createAsyncThunk(
         },
       })
     );
+
+    return data;
+  }
+);
+
+export const newLabel = createAsyncThunk(
+  'scrumboardApp/board/newLabel',
+  async (labelInfo, { dispatch }) => {
+    const response = await axios.post('/api/scrumboard-app/new-label', labelInfo);
+    const data = await response.data;
+
+    return data;
+  }
+);
+
+export const removeLabel = createAsyncThunk(
+  'scrumboardApp/board/removeLabel',
+  async (labelInfo, { dispatch }) => {
+    const response = await axios.post('/api/scrumboard-app/remove-label', labelInfo);
+    const data = await response.data;
 
     return data;
   }
@@ -263,6 +284,17 @@ const boardsSlice = createSlice({
     },
     [removeList.fulfilled]: (state, action) => {
       state.lists = _.reject(state.lists, { id: action.payload });
+    },
+    [newLabel.fulfilled]: (state, action) => {
+      state.labels = action.payload;
+    },
+    [removeLabel.fulfilled]: (state, action) => {
+      const { labelId } = action.payload;
+      state.labels = _.reject(state.labels, { id: labelId });
+      state.cards = state.cards.map((card) => {
+        card.idLabels = card.idLabels.filter((id) => id !== labelId);
+        return card;
+      });
     },
     [changeBoardSettings.fulfilled]: (state, action) => {
       state.settings = action.payload;

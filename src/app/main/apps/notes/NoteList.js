@@ -18,11 +18,12 @@ function NoteList(props) {
   useEffect(() => {
     function filterData() {
       const { id, labelId } = params;
+      const idLabel = parseInt(labelId, 10);
 
       let data = notes;
 
       if (labelId) {
-        data = data.filter((note) => note.labels.includes(labelId) && !note.archive);
+        data = data.filter((note) => note.labels.includes(idLabel) && !note.archive);
       }
 
       if (!id) {

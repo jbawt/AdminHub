@@ -2,7 +2,30 @@ import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/too
 import { updateNavigationItem } from 'app/store/fuse/navigationSlice';
 import axios from 'axios';
 
-let todoBadges;
+export const getIncompleteCount = createAsyncThunk(
+  'todoApp/todos/getIncomplete',
+  async (routeParams, { dispatch }) => {
+    routeParams = 'incomplete';
+    const response = await axios.get('/api/todo-app/incomplete', {
+      params: routeParams,
+    });
+    const data = await response.data;
+
+    const todoBadges = data.filter((todo) => !todo.deleted).length;
+    dispatch(
+      updateNavigationItem('todo', {
+        title: 'To-Do',
+        badge: {
+          title: todoBadges,
+          bg: 'rgb(255, 111, 0)',
+          fg: '#FFFFFF',
+        },
+      })
+    );
+
+    return { data, routeParams };
+  }
+);
 
 export const getTodos = createAsyncThunk(
   'todoApp/todos/getTodos',
@@ -17,18 +40,6 @@ export const getTodos = createAsyncThunk(
       todo.startDate = new Date(todo.startDate);
       todo.dueDate = new Date(todo.dueDate);
     });
-
-    todoBadges = data.filter((todo) => !todo.completed || !todo.deleted).length;
-    dispatch(
-      updateNavigationItem('todo', {
-        title: 'To-Do',
-        badge: {
-          title: todoBadges,
-          bg: 'rgb(255, 111, 0)',
-          fg: '#FFFFFF',
-        },
-      })
-    );
 
     return { data, routeParams };
   }
@@ -62,6 +73,18 @@ export const removeTodo = createAsyncThunk(
   'todoApp/todos/removeTodo',
   async (todoId, { dispatch, getState }) => {
     const response = await axios.post('/api/todo-app/remove-todo', todoId);
+    const data = await response.data;
+
+    dispatch(getTodos());
+
+    return data;
+  }
+);
+
+export const restoreTodo = createAsyncThunk(
+  'todoApp/todos/restoreTodo',
+  async (todoId, { dispatch }) => {
+    const response = await axios.post('/api/todo-app/restore-todo', todoId);
     const data = await response.data;
 
     dispatch(getTodos());

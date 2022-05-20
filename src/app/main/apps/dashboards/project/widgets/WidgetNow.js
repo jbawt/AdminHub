@@ -24,7 +24,7 @@ function WidgetNow() {
     <Paper className="w-full rounded-20 shadow flex flex-col justify-between">
       <div className="flex items-center justify-between px-4 pt-8">
         <Typography className="text-16 px-16 font-medium tracking-tighter" color="textSecondary">
-          {format(time, 'eee, HH:mm:ss')}
+          {format(time, 'eee, hh:mm a')}
         </Typography>
         <IconButton aria-label="more" size="large">
           <Icon>more_vert</Icon>

@@ -16,14 +16,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Autocomplete from '@mui/material/Autocomplete';
-import fromUnixTime from 'date-fns/fromUnixTime';
-import getUnixTime from 'date-fns/getUnixTime';
 import format from 'date-fns/format';
-import parseISO from 'date-fns/parseISO';
 import { Controller, useForm } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Switch } from '@mui/material';
+import { Button, Switch } from '@mui/material';
 import {
   closeCardDialog,
   removeCard,
@@ -48,11 +45,13 @@ function BoardCardForm(props) {
   const dispatch = useDispatch();
   const card = useSelector(({ scrumboardApp }) => scrumboardApp.card.data);
   const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
-  const { register, watch, control, setValue } = useForm({ mode: 'onChange', defaultValues: card });
+  const { register, watch, control, setValue } = useForm({ mode: 'onSubmit', defaultValues: card });
   const cardForm = watch();
+  const [changeDisabled, setChangeDisabled] = useState(true);
 
   const updateCardData = useDebounce((boardId, newCard) => {
     dispatch(updateCard({ boardId, card: { ...newCard } }));
+    dispatch(closeCardDialog());
   }, 600);
 
   const removeAttachment = useDebounce((attachmentId) => {
@@ -74,8 +73,9 @@ function BoardCardForm(props) {
       return;
     }
     if (!_.isEqual(card, cardForm)) {
-      updateCardData(board.id, cardForm);
+      setChangeDisabled(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [board.id, card, cardForm, updateCardData]);
 
   useEffect(() => {
@@ -157,7 +157,13 @@ function BoardCardForm(props) {
               <IconButton
                 color="inherit"
                 onClick={() =>
-                  dispatch(subscribeToCard({ cardId: card.id, subscribed: !card.subscribed }))
+                  dispatch(
+                    subscribeToCard({
+                      cardId: card.id,
+                      subscribed: !card.subscribed,
+                      boardId: board.id,
+                    })
+                  )
                 }
               >
                 <Icon>remove_red_eye</Icon>
@@ -165,7 +171,13 @@ function BoardCardForm(props) {
             </Tooltip>
             <Switch
               onChange={() => {
-                dispatch(subscribeToCard({ cardId: card.id, subscribed: !card.subscribed }));
+                dispatch(
+                  subscribeToCard({
+                    cardId: card.id,
+                    subscribed: !card.subscribed,
+                    boardId: board.id,
+                  })
+                );
               }}
               checked={card.subscribed}
             />
@@ -189,7 +201,7 @@ function BoardCardForm(props) {
           </div>
           {cardForm.due && (
             <DateTimePicker
-              value={format(fromUnixTime(getUnixTime(parseISO(cardForm.due))), 'Pp')}
+              value={format(new Date(cardForm.due), 'Pp')}
               inputFormat="Pp"
               onChange={(val) => setValue('due', val.toISOString())}
               renderInput={(_props) => (
@@ -437,6 +449,19 @@ function BoardCardForm(props) {
             </div>
           )}
         />
+        <div className="w-full flex justify-around items-center">
+          <Button variant="contained" color="error" onClick={() => dispatch(closeCardDialog())}>
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => updateCardData(board.id, cardForm)}
+            disabled={changeDisabled}
+          >
+            Save Changes
+          </Button>
+        </div>
       </DialogContent>
     </>
   );

@@ -63,7 +63,7 @@ function QuickPanel(props) {
                   <ListItem>
                     <ListItemText
                       primary={note.title}
-                      secondary={format(new Date(note.time), 'EEE MMM do yyyy')}
+                      // secondary={format(new Date(note.time), 'EEE MMM do yyyy')}
                     />
                   </ListItem>
                   <Divider />

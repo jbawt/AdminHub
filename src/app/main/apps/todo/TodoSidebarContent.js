@@ -8,16 +8,18 @@ import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
+import { IconButton, Tooltip } from '@mui/material';
+import TodoAddLabel from './TodoAddLabel';
 import { selectFilters } from './store/filtersSlice';
 import { selectFolders } from './store/foldersSlice';
-import { selectLabels } from './store/labelsSlice';
+import { selectLabels, removeLabel } from './store/labelsSlice';
 import { openNewTodoDialog } from './store/todosSlice';
 
 const StyledListItem = styled(ListItem)(({ theme }) => ({
   color: 'inherit!important',
   textDecoration: 'none!important',
   height: 40,
-  width: '100%',
+  width: '80%',
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
@@ -45,6 +47,10 @@ function TodoSidebarContent(props) {
   const labels = useSelector(selectLabels);
   const folders = useSelector(selectFolders);
   const filters = useSelector(selectFilters);
+
+  function deleteLabel(labelId) {
+    dispatch(removeLabel(labelId));
+  }
 
   return (
     <motion.div
@@ -113,18 +119,25 @@ function TodoSidebarContent(props) {
 
           {labels.length > 0 &&
             labels.map((label) => (
-              <StyledListItem
-                button
-                component={NavLinkAdapter}
-                to={`/apps/todo/label/${label.handle}`}
-                key={label.id}
-              >
-                <Icon className="list-item-icon" style={{ color: label.color }} color="action">
-                  label
-                </Icon>
-                <ListItemText primary={label.title} disableTypography />
-              </StyledListItem>
+              <div key={label.id} className="flex justify-between">
+                <StyledListItem
+                  button
+                  component={NavLinkAdapter}
+                  to={`/apps/todo/label/${label.handle}`}
+                >
+                  <Icon className="list-item-icon" style={{ color: label.color }} color="action">
+                    label
+                  </Icon>
+                  <ListItemText primary={label.title} disableTypography />
+                </StyledListItem>
+                <Tooltip title="Delete label" placement="right">
+                  <IconButton onClick={() => deleteLabel(label.id)} color="error">
+                    <Icon>delete</Icon>
+                  </IconButton>
+                </Tooltip>
+              </div>
             ))}
+          <TodoAddLabel />
         </List>
       </div>
     </motion.div>

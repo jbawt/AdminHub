@@ -25,7 +25,6 @@ import BoardSettingsSidebar from './sidebars/settings/BoardSettingsSidebar';
 function Board(props) {
   const dispatch = useDispatch();
   const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
-
   const routeParams = useParams();
   const containerRef = useRef(null);
   const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);

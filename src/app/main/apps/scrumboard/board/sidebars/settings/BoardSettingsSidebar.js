@@ -9,19 +9,39 @@ import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import Toolbar from '@mui/material/Toolbar';
-import { Typography, Autocomplete, Chip, Tooltip, Avatar, TextField, Divider } from '@mui/material';
+import {
+  Typography,
+  Autocomplete,
+  Chip,
+  Tooltip,
+  Avatar,
+  TextField,
+  Divider,
+  IconButton,
+} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { Fragment } from 'react';
+import BoardAddLabel from '../BoardAddLabel';
 import {
   deleteBoard,
-  copyBoard,
+  // copyBoard,
   changeBoardSettings,
   updateMembers,
+  removeLabel,
 } from '../../../store/boardSlice';
 
 function BoardSettingsSidebar(props) {
   const dispatch = useDispatch();
   const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
   const loggedInUser = useSelector(({ auth }) => auth.user);
+
+  const deleteLabel = (boardId, labelId) => {
+    const labelInfo = {
+      boardId,
+      labelId,
+    };
+    dispatch(removeLabel(labelInfo));
+  };
 
   return (
     <div>
@@ -35,57 +55,69 @@ function BoardSettingsSidebar(props) {
       </AppBar>
 
       <List className="py-16" dense>
-        <ListItem
-          button
-          onClick={() =>
-            dispatch(changeBoardSettings({ cardCoverImages: !board.settings.cardCoverImages }))
-          }
-        >
-          <ListItemIcon className="min-w-40">
-            <Icon>photo</Icon>
-          </ListItemIcon>
-          <ListItemText primary="Card Cover Images" />
-          <ListItemSecondaryAction>
-            <Switch
-              onChange={() =>
-                dispatch(changeBoardSettings({ cardCoverImages: !board.settings.cardCoverImages }))
-              }
-              checked={board.settings.cardCoverImages}
-            />
-          </ListItemSecondaryAction>
-        </ListItem>
+        <div className="flex-1 mb-24 mx-8">
+          <div className="flex items-center mt-16 ml-11 mb-12">
+            <Icon className="text-20" color="inherit">
+              tune
+            </Icon>
+            <Typography className="font-semibold text-16 mx-8">Options</Typography>
+          </div>
+          <ListItem
+            button
+            onClick={() =>
+              dispatch(changeBoardSettings({ cardCoverImages: !board.settings.cardCoverImages }))
+            }
+          >
+            <ListItemIcon className="min-w-40">
+              <Icon>photo</Icon>
+            </ListItemIcon>
+            <ListItemText primary="Card Cover Images" />
+            <ListItemSecondaryAction>
+              <Switch
+                onChange={() =>
+                  dispatch(
+                    changeBoardSettings({ cardCoverImages: !board.settings.cardCoverImages })
+                  )
+                }
+                checked={board.settings.cardCoverImages}
+              />
+            </ListItemSecondaryAction>
+          </ListItem>
 
-        <ListItem
-          button
-          onClick={() => dispatch(changeBoardSettings({ subscribed: !board.settings.subscribed }))}
-        >
-          <ListItemIcon className="min-w-40">
-            <Icon>remove_red_eye</Icon>
-          </ListItemIcon>
-          <ListItemText primary="Subscribe" />
-          <ListItemSecondaryAction>
-            <Switch
-              onChange={() =>
-                dispatch(changeBoardSettings({ subscribed: !board.settings.subscribed }))
-              }
-              checked={board.settings.subscribed}
-            />
-          </ListItemSecondaryAction>
-        </ListItem>
+          <ListItem
+            button
+            onClick={() =>
+              dispatch(changeBoardSettings({ subscribed: !board.settings.subscribed }))
+            }
+          >
+            <ListItemIcon className="min-w-40">
+              <Icon>remove_red_eye</Icon>
+            </ListItemIcon>
+            <ListItemText primary="Subscribe" />
+            <ListItemSecondaryAction>
+              <Switch
+                onChange={() =>
+                  dispatch(changeBoardSettings({ subscribed: !board.settings.subscribed }))
+                }
+                checked={board.settings.subscribed}
+              />
+            </ListItemSecondaryAction>
+          </ListItem>
 
-        <ListItem button onClick={() => dispatch(copyBoard(board))}>
-          <ListItemIcon className="min-w-40">
-            <Icon>file_copy</Icon>
-          </ListItemIcon>
-          <ListItemText primary="Copy Board" />
-        </ListItem>
+          {/* <ListItem button onClick={() => dispatch(copyBoard(board))}>
+            <ListItemIcon className="min-w-40">
+              <Icon>file_copy</Icon>
+            </ListItemIcon>
+            <ListItemText primary="Copy Board" />
+          </ListItem> */}
 
-        <ListItem button onClick={() => dispatch(deleteBoard(board.id))}>
-          <ListItemIcon className="min-w-40">
-            <Icon>delete</Icon>
-          </ListItemIcon>
-          <ListItemText primary="Delete Board" />
-        </ListItem>
+          <ListItem button onClick={() => dispatch(deleteBoard(board.id))}>
+            <ListItemIcon className="min-w-40">
+              <Icon>delete</Icon>
+            </ListItemIcon>
+            <ListItemText primary="Delete Board" />
+          </ListItem>
+        </div>
         <Divider />
         <ListItem>
           {board.users && loggedInUser.role === 'admin' && (
@@ -150,7 +182,27 @@ function BoardSettingsSidebar(props) {
               </ListItemIcon>
               <Typography className="font-semibold text-16 mx-8">Edit Labels</Typography>
             </div>
-            {/* {console.log(board)} */}
+            <List className="py-16" dense>
+              {board.labels.map((label, key) => {
+                return (
+                  <Fragment key={key}>
+                    <ListItem>
+                      <ListItemText primary={label.name} />
+                      <div className={clsx(label.class, 'w-32  h-10 rounded-6 mx-4 mb-1')} />
+                      <ListItemIcon className="min-w-40">
+                        <Tooltip title="Remove Label" placement="left">
+                          <IconButton onClick={() => deleteLabel(board.id, label.id)} color="error">
+                            <Icon>delete</Icon>
+                          </IconButton>
+                        </Tooltip>
+                      </ListItemIcon>
+                    </ListItem>
+                    <Divider />
+                  </Fragment>
+                );
+              })}
+              <BoardAddLabel />
+            </List>
           </div>
         </ListItem>
       </List>
