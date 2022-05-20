@@ -7,8 +7,8 @@ import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Auth0LoginTab from './tabs/Auth0LoginTab';
-import FirebaseLoginTab from './tabs/FirebaseLoginTab';
+// import Auth0LoginTab from './tabs/Auth0LoginTab';
+// import FirebaseLoginTab from './tabs/FirebaseLoginTab';
 import JWTLoginTab from './tabs/JWTLoginTab';
 
 const Root = styled('div')(({ theme }) => ({
@@ -57,13 +57,13 @@ function Login() {
                 <div className="border-l-1 mr-4 w-1 h-40" />
                 <div>
                   <Typography className="text-24 font-semibold logo-text" color="inherit">
-                    FUSE
+                    Admin
                   </Typography>
                   <Typography
                     className="text-16 tracking-widest -mt-8 font-700"
                     color="textSecondary"
                   >
-                    REACT
+                    Hub
                   </Typography>
                 </div>
               </div>
@@ -101,8 +101,8 @@ function Login() {
             </Tabs>
 
             {selectedTab === 0 && <JWTLoginTab />}
-            {selectedTab === 1 && <FirebaseLoginTab />}
-            {selectedTab === 2 && <Auth0LoginTab />}
+            {/* {selectedTab === 1 && <FirebaseLoginTab />}
+            {selectedTab === 2 && <Auth0LoginTab />} */}
           </CardContent>
 
           <div className="flex flex-col items-center justify-center pb-32">

@@ -21,7 +21,7 @@ function Logo() {
     <Root className="flex items-center">
       <img className="logo-icon w-24 h-24" src="assets/images/logos/fuse.svg" alt="logo" />
       <Typography className="logo-text text-16 leading-none mx-12 font-medium" color="inherit">
-        FUSE
+        AdminHub
       </Typography>
       {/* <div
         className="badge flex items-center py-4 px-8 rounded"

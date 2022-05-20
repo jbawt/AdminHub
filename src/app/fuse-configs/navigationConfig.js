@@ -158,23 +158,23 @@ const navigationConfig = [
       },
     ],
   },
-  {
-    id: 'learning',
-    title: 'Learning',
-    translate: 'LEARNING',
-    type: 'group',
-    icon: 'school',
-    children: [
-      {
-        id: 'academy',
-        title: 'Academy',
-        translate: 'ACADEMY',
-        type: 'item',
-        icon: 'school',
-        url: 'apps/academy',
-      },
-    ],
-  },
+  // {
+  //   id: 'learning',
+  //   title: 'Learning',
+  //   translate: 'LEARNING',
+  //   type: 'group',
+  //   icon: 'school',
+  //   children: [
+  //     {
+  //       id: 'academy',
+  //       title: 'Academy',
+  //       translate: 'ACADEMY',
+  //       type: 'item',
+  //       icon: 'school',
+  //       url: 'apps/academy',
+  //     },
+  //   ],
+  // },
 ];
 
 export default navigationConfig;
