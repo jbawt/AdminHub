@@ -160,7 +160,7 @@ function Chat(props) {
 
               return (
                 <StyledMessageRow
-                  key={item.time}
+                  key={i}
                   className={clsx(
                     'flex flex-col grow-0 shrink-0 items-start justify-end relative px-16 pb-4',
                     { me: item.who === user.id },
