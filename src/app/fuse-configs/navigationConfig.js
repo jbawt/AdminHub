@@ -63,6 +63,13 @@ const navigationConfig = [
         icon: 'note',
         url: 'apps/notes',
       },
+      {
+        id: 'budget',
+        title: 'Budget',
+        type: 'item',
+        icon: 'attach_money',
+        url: 'apps/budget',
+      },
     ],
   },
   {
