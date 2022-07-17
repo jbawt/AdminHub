@@ -16,7 +16,7 @@ import {
 import { MoreVert } from '@mui/icons-material';
 
 const StyledCard = styled(Card)`
-  width: 20%;
+  width: 100%;
   height: 25%;
 `;
 
@@ -28,7 +28,7 @@ const IncomeWidget = (props) => {
   const remaining = totalIncome - (tax + expenses);
 
   return (
-    <StyledCard>
+    <StyledCard raised>
       <CardHeader
         sx={{
           borderBottom: '1px solid gray',
@@ -84,9 +84,9 @@ const IncomeWidget = (props) => {
         <Stack spacing={3}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="p" color="inherit" component="div">
-              Total Income:
+              Total Income: $
             </Typography>
-            {tabValue === 0 && totalIncome.toFixed(2)}
+            ${tabValue === 0 && totalIncome.toFixed(2)}
             {tabValue === 1 && (totalIncome / 2).toFixed(2)}
             {tabValue === 2 && (totalIncome / 4).toFixed(2)}
           </Box>
@@ -94,7 +94,7 @@ const IncomeWidget = (props) => {
             <Typography variant="p" color="inherit" component="div">
               Expenses:
             </Typography>
-            -{tabValue === 0 && expenses.toFixed(2)}
+            - ${tabValue === 0 && expenses.toFixed(2)}
             {tabValue === 1 && (expenses / 2).toFixed(2)}
             {tabValue === 2 && (expenses / 4).toFixed(2)}
           </Box>
@@ -102,7 +102,7 @@ const IncomeWidget = (props) => {
             <Typography variant="p" color="inherit" component="div">
               Tax:
             </Typography>
-            -{tabValue === 0 && tax.toFixed(2)}
+            - ${tabValue === 0 && tax.toFixed(2)}
             {tabValue === 1 && (tax / 2).toFixed(2)}
             {tabValue === 2 && (tax / 4).toFixed(2)}
           </Box>
@@ -111,7 +111,7 @@ const IncomeWidget = (props) => {
             <Typography variant="p" color="inherit" component="div">
               Remaining:
             </Typography>
-            {tabValue === 0 && remaining.toFixed(2)}
+            ${tabValue === 0 && remaining.toFixed(2)}
             {tabValue === 1 && (remaining / 2).toFixed(2)}
             {tabValue === 2 && (remaining / 4).toFixed(2)}
           </Box>

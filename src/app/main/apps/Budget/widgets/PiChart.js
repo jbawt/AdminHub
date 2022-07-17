@@ -24,6 +24,7 @@ const PiChart = (props) => {
         monochrome: {
           enabled: false,
         },
+        palette: 'palette4',
       },
       responsive: [
         {
@@ -51,12 +52,12 @@ const PiChart = (props) => {
   };
 
   const StyledCard = styled(Card)`
-    width: 20%;
+    width: 100%;
     height: 45%;
   `;
 
   return (
-    <StyledCard>
+    <StyledCard raised>
       <CardHeader
         sx={{
           borderBottom: '1px solid gray',
@@ -131,7 +132,7 @@ const PiChart = (props) => {
         />
         <div>
           <Typography variant="h6" color="inherit" component="div">
-            Total expenses: {tabValue === 0 && data.series.reduce((a, b) => a + b).toFixed(2)}
+            Total expenses: ${tabValue === 0 && data.series.reduce((a, b) => a + b).toFixed(2)}
             {tabValue === 1 && (data.series.reduce((a, b) => a + b) / 2).toFixed(2)}
             {tabValue === 2 && (data.series.reduce((a, b) => a + b) / 4).toFixed(2)}
           </Typography>
