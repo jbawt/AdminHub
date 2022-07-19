@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { styled } from '@mui/system';
+import { getFederalTaxAmount, getProvincialTaxAmount } from '@equisoft/tax-ca';
 import {
   // TextField,
   Tabs,
@@ -17,15 +18,21 @@ import { MoreVert } from '@mui/icons-material';
 
 const StyledCard = styled(Card)`
   width: 100%;
-  height: 25%;
+  height: 28%;
 `;
 
 const IncomeWidget = (props) => {
   const [tabValue, setTabValue] = useState(0);
-  const totalIncome = 4000;
-  const tax = 880;
+  const totalIncome = 57600;
+  const federalTax = getFederalTaxAmount('AB', totalIncome, 0, 0);
+  const provincialTax = getProvincialTaxAmount('AB', totalIncome, 0, 0);
+  const tax = federalTax + provincialTax;
+  const monthlyIncome = totalIncome / 12;
+  const monthlyFedTax = federalTax / 12;
+  const monthlyProvTax = provincialTax / 12;
+  const monthlyTax = tax / 12;
   const expenses = 2120;
-  const remaining = totalIncome - (tax + expenses);
+  const remaining = monthlyIncome - (monthlyTax + expenses);
 
   return (
     <StyledCard raised>
@@ -78,18 +85,35 @@ const IncomeWidget = (props) => {
           </Box>
         }
         title="Income"
-        subheader="January" // make dynamic
+        subheader="January 2022" // make dynamic
       />
       <CardContent>
-        <Stack spacing={3}>
+        <Stack spacing={2}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="p" color="inherit" component="div">
-              Total Income: $
+              Total Income:
             </Typography>
-            ${tabValue === 0 && totalIncome.toFixed(2)}
-            {tabValue === 1 && (totalIncome / 2).toFixed(2)}
-            {tabValue === 2 && (totalIncome / 4).toFixed(2)}
+            ${tabValue === 0 && monthlyIncome.toFixed(2)}
+            {tabValue === 1 && (monthlyIncome / 2).toFixed(2)}
+            {tabValue === 2 && (monthlyIncome / 4).toFixed(2)}
           </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Typography variant="p" color="inherit" component="div">
+              Federal Tax:
+            </Typography>
+            - ${tabValue === 0 && monthlyFedTax.toFixed(2)}
+            {tabValue === 1 && (monthlyFedTax / 2).toFixed(2)}
+            {tabValue === 2 && (monthlyFedTax / 4).toFixed(2)}
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Typography variant="p" color="inherit" component="div">
+              Provincial Tax:
+            </Typography>
+            - ${tabValue === 0 && monthlyProvTax.toFixed(2)}
+            {tabValue === 1 && (monthlyProvTax / 2).toFixed(2)}
+            {tabValue === 2 && (monthlyProvTax / 4).toFixed(2)}
+          </Box>
+          <Divider />
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="p" color="inherit" component="div">
               Expenses:
@@ -97,14 +121,6 @@ const IncomeWidget = (props) => {
             - ${tabValue === 0 && expenses.toFixed(2)}
             {tabValue === 1 && (expenses / 2).toFixed(2)}
             {tabValue === 2 && (expenses / 4).toFixed(2)}
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Typography variant="p" color="inherit" component="div">
-              Tax:
-            </Typography>
-            - ${tabValue === 0 && tax.toFixed(2)}
-            {tabValue === 1 && (tax / 2).toFixed(2)}
-            {tabValue === 2 && (tax / 4).toFixed(2)}
           </Box>
           <Divider />
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>

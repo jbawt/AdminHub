@@ -107,7 +107,7 @@ const PiChart = (props) => {
           </Box>
         }
         title="Expenses"
-        subheader="January" // make dynamic
+        subheader="January 2022" // make dynamic
       />
       <CardContent
         sx={{
