@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { styled } from '@mui/system';
+import { useSelector } from 'react-redux';
 import { getFederalTaxAmount, getProvincialTaxAmount } from '@equisoft/tax-ca';
 import {
   // TextField,
@@ -23,7 +24,8 @@ const StyledCard = styled(Card)`
 
 const IncomeWidget = (props) => {
   const [tabValue, setTabValue] = useState(0);
-  const totalIncome = 57600;
+  const totalIncome = useSelector(({ budgetApp }) => budgetApp.income.entities.undefined.income);
+
   const federalTax = getFederalTaxAmount('AB', totalIncome, 0, 0);
   const provincialTax = getProvincialTaxAmount('AB', totalIncome, 0, 0);
   const tax = federalTax + provincialTax;

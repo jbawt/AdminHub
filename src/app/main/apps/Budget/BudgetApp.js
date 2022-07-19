@@ -1,5 +1,10 @@
+import withReducer from 'app/store/withReducer';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { styled } from '@mui/system';
 import { Box } from '@mui/material';
+import reducer from './store';
+import { getIncome } from './store/incomeSlice';
 import BudgetAppToolbar from './BudgetAppToolbar';
 import PiChart from './widgets/PiChart';
 import IncomeWidget from './widgets/IncomeWidget';
@@ -25,6 +30,12 @@ const StyledDiv = styled('div')`
 `;
 
 function BudgetApp() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getIncome());
+  }, [dispatch]);
+
   return (
     <>
       <BudgetAppToolbar />
@@ -40,4 +51,4 @@ function BudgetApp() {
   );
 }
 
-export default BudgetApp;
+export default withReducer('budgetApp', reducer)(BudgetApp);
