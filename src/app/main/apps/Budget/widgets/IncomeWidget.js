@@ -19,12 +19,12 @@ import { MoreVert } from '@mui/icons-material';
 
 const StyledCard = styled(Card)`
   width: 100%;
-  height: 28%;
+  height: 30%;
 `;
 
 const IncomeWidget = (props) => {
   const [tabValue, setTabValue] = useState(0);
-  const totalIncome = useSelector(({ budgetApp }) => budgetApp.income.entities.undefined.income);
+  const totalIncome = useSelector(({ budgetApp }) => budgetApp.income.total);
 
   const federalTax = getFederalTaxAmount('AB', totalIncome, 0, 0);
   const provincialTax = getProvincialTaxAmount('AB', totalIncome, 0, 0);
@@ -33,6 +33,7 @@ const IncomeWidget = (props) => {
   const monthlyFedTax = federalTax / 12;
   const monthlyProvTax = provincialTax / 12;
   const monthlyTax = tax / 12;
+  const totalAfterTax = monthlyIncome - monthlyTax;
   const expenses = 2120;
   const remaining = monthlyIncome - (monthlyTax + expenses);
 
@@ -118,6 +119,14 @@ const IncomeWidget = (props) => {
           <Divider />
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="p" color="inherit" component="div">
+              Total after tax:
+            </Typography>
+            ${tabValue === 0 && totalAfterTax.toFixed(2)}
+            {tabValue === 1 && (totalAfterTax / 2).toFixed(2)}
+            {tabValue === 2 && (totalAfterTax / 4).toFixed(2)}
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Typography variant="p" color="inherit" component="div">
               Expenses:
             </Typography>
             - ${tabValue === 0 && expenses.toFixed(2)}
@@ -127,7 +136,7 @@ const IncomeWidget = (props) => {
           <Divider />
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="p" color="inherit" component="div">
-              Remaining:
+              Total after expenses:
             </Typography>
             ${tabValue === 0 && remaining.toFixed(2)}
             {tabValue === 1 && (remaining / 2).toFixed(2)}
