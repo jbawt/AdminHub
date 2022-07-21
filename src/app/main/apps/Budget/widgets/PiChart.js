@@ -1,6 +1,8 @@
+/* eslint-disable no-nested-ternary */
 import { useState } from 'react';
-import { styled, useTheme } from '@mui/system';
+import { styled } from '@mui/system';
 import ReactApexChart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 import {
   Card,
   CardHeader,
@@ -12,49 +14,17 @@ import {
   Tabs,
 } from '@mui/material';
 import { MoreVert } from '@mui/icons-material';
+import chartData from './PiChartData';
+
+const StyledCard = styled(Card)`
+  width: 100%;
+  height: 45%;
+`;
 
 const PiChart = (props) => {
   const [tabValue, setTabValue] = useState(0);
-  const theme = useTheme();
-  // fake data until backend is made
-  const data = {
-    options: {
-      labels: ['Rent', 'Expenses', 'Spending', 'Savings'],
-      theme: {
-        monochrome: {
-          enabled: false,
-        },
-        palette: 'palette4',
-      },
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: '100%',
-              height: '100%',
-            },
-            legend: {
-              show: false,
-            },
-          },
-        },
-      ],
-      chart: {
-        events: {
-          dataPointSelection: (event, chartContext, config) => {
-            console.log(config.w.config.labels[config.dataPointIndex]);
-          },
-        },
-      },
-    },
-    series: [1060, 500, 130, 430],
-  };
-
-  const StyledCard = styled(Card)`
-    width: 100%;
-    height: 45%;
-  `;
+  const expenseData = useSelector(({ budgetApp }) => budgetApp.expenses);
+  const data = chartData(expenseData.data);
 
   return (
     <StyledCard raised>
@@ -118,23 +88,26 @@ const PiChart = (props) => {
           justifyContent: 'space-evenly',
         }}
       >
-        <ReactApexChart
-          options={data.options}
-          series={
-            // eslint-disable-next-line no-nested-ternary
-            tabValue === 0
-              ? data.series.map((item) => item)
-              : tabValue === 1
-              ? data.series.map((item) => item / 2)
-              : data.series.map((item) => item / 4)
-          }
-          type="donut"
-        />
+        {expenseData.loaded && (
+          <ReactApexChart
+            options={data.options}
+            series={
+              tabValue === 0
+                ? data.series.map((item) => item)
+                : tabValue === 1
+                ? data.series.map((item) => item / 2)
+                : tabValue === 2
+                ? data.series.map((item) => item / 4)
+                : [0, 0, 0, 0, 0]
+            }
+            type="donut"
+          />
+        )}
         <div>
           <Typography variant="h6" color="inherit" component="div">
-            Total expenses: ${tabValue === 0 && data.series.reduce((a, b) => a + b).toFixed(2)}
-            {tabValue === 1 && (data.series.reduce((a, b) => a + b) / 2).toFixed(2)}
-            {tabValue === 2 && (data.series.reduce((a, b) => a + b) / 4).toFixed(2)}
+            Total expenses: ${tabValue === 0 && data?.series?.reduce((a, b) => a + b).toFixed(2)}
+            {tabValue === 1 && (data?.series?.reduce((a, b) => a + b) / 2).toFixed(2)}
+            {tabValue === 2 && (data?.series?.reduce((a, b) => a + b) / 4).toFixed(2)}
           </Typography>
         </div>
       </CardContent>

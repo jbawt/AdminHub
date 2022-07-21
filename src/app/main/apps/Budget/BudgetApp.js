@@ -5,6 +5,7 @@ import { styled } from '@mui/system';
 import { Box } from '@mui/material';
 import reducer from './store';
 import { getIncome } from './store/incomeSlice';
+import { getExpenses } from './store/expenseSlice';
 import BudgetAppToolbar from './BudgetAppToolbar';
 import PiChart from './widgets/PiChart';
 import IncomeWidget from './widgets/IncomeWidget';
@@ -34,6 +35,7 @@ function BudgetApp() {
 
   useEffect(() => {
     dispatch(getIncome());
+    dispatch(getExpenses());
   }, [dispatch]);
 
   return (

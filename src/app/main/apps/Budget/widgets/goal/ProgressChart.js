@@ -24,7 +24,7 @@ const ProgressChart = (props) => {
         show: false,
       },
       theme: {
-        palette: 'palette4',
+        palette: 'palette1',
       },
       plotOptions: {
         bar: {
