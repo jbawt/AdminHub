@@ -156,14 +156,32 @@ const PiChart = (props) => {
               horizontal: 'right',
             }}
           >
-            <MenuItem id="TM" onClick={() => handleMonthSelect(null)}>
+            <MenuItem
+              id="TM"
+              onClick={() => {
+                handleMonthSelect(null);
+                handleClose();
+              }}
+            >
               This Month
             </MenuItem>
-            <MenuItem id="LM" onClick={() => handleMonthSelect(1)}>
+            <MenuItem
+              id="LM"
+              onClick={() => {
+                handleMonthSelect(1);
+                handleClose();
+              }}
+            >
               Last Month
             </MenuItem>
-            <MenuItem id="TMA" onClick={() => handleMonthSelect(2)}>
-              Two Months Ago
+            <MenuItem
+              id="NM"
+              onClick={() => {
+                handleMonthSelect(-1);
+                handleClose();
+              }}
+            >
+              Next Month
             </MenuItem>
           </Menu>
         </Box>
