@@ -17,7 +17,7 @@ const StyledBox = styled(Box)`
   flex-direction: column;
   justify-content: space-evenly;
   width: 20%;
-  height: 100%;
+  height: 97%;
 `;
 
 const StyledDiv = styled('div')`

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { styled } from '@mui/system';
 import { useSelector } from 'react-redux';
 import { getFederalTaxAmount, getProvincialTaxAmount } from '@equisoft/tax-ca';
+import { format } from 'date-fns';
 import {
   // TextField,
   Tabs,
@@ -9,13 +10,11 @@ import {
   Card,
   CardContent,
   CardHeader,
-  IconButton,
   Stack,
   Typography,
   Box,
   Divider,
 } from '@mui/material';
-import { MoreVert } from '@mui/icons-material';
 
 const StyledCard = styled(Card)`
   width: 100%;
@@ -25,6 +24,7 @@ const StyledCard = styled(Card)`
 const IncomeWidget = (props) => {
   const [tabValue, setTabValue] = useState(0);
   const totalIncome = useSelector(({ budgetApp }) => budgetApp.income.total);
+  const expenseData = useSelector(({ budgetApp }) => budgetApp.expenses);
 
   const federalTax = getFederalTaxAmount('AB', totalIncome, 0, 0);
   const provincialTax = getProvincialTaxAmount('AB', totalIncome, 0, 0);
@@ -34,7 +34,9 @@ const IncomeWidget = (props) => {
   const monthlyProvTax = provincialTax / 12;
   const monthlyTax = tax / 12;
   const totalAfterTax = monthlyIncome - monthlyTax;
-  const expenses = 2120;
+  const expenses = expenseData.loaded
+    ? expenseData.data.expenses.map((item) => Number(item.total)).reduce((a, b) => a + b)
+    : 0;
   const remaining = monthlyIncome - (monthlyTax + expenses);
 
   return (
@@ -82,13 +84,10 @@ const IncomeWidget = (props) => {
                 label="Weekly"
               />
             </Tabs>
-            <IconButton aria-label="settings">
-              <MoreVert />
-            </IconButton>
           </Box>
         }
         title="Income"
-        subheader="January 2022" // make dynamic
+        subheader={format(new Date(Date.now()), 'MMMM yyyy')} // make dynamic
       />
       <CardContent>
         <Stack spacing={2}>

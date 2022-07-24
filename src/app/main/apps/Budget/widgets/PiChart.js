@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { styled } from '@mui/system';
 import ReactApexChart from 'react-apexcharts';
 import { useSelector } from 'react-redux';
+import { format } from 'date-fns';
 import {
   Card,
   CardHeader,
@@ -12,6 +13,9 @@ import {
   Box,
   Tab,
   Tabs,
+  Menu,
+  MenuItem,
+  Tooltip,
 } from '@mui/material';
 import { MoreVert } from '@mui/icons-material';
 import chartData from './PiChartData';
@@ -23,8 +27,27 @@ const StyledCard = styled(Card)`
 
 const PiChart = (props) => {
   const [tabValue, setTabValue] = useState(0);
+  const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
+  const [anchorEl, setAnchorEl] = useState(null);
   const expenseData = useSelector(({ budgetApp }) => budgetApp.expenses);
-  const data = chartData(expenseData.data);
+  const open = Boolean(anchorEl);
+
+  const data = chartData(expenseData.data, selectedDate);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleMonthSelect = (monthsAgo) => {
+    if (monthsAgo === null) {
+      setSelectedDate(new Date(Date.now()));
+    } else {
+      const date = new Date();
+      const newDate = new Date(date.getFullYear(), date.getMonth() - monthsAgo, 1);
+      setSelectedDate(newDate);
+    }
+  };
 
   return (
     <StyledCard raised>
@@ -71,13 +94,10 @@ const PiChart = (props) => {
                 label="Weekly"
               />
             </Tabs>
-            <IconButton aria-label="settings">
-              <MoreVert />
-            </IconButton>
           </Box>
         }
         title="Expenses"
-        subheader="January 2022" // make dynamic
+        subheader={format(selectedDate, 'MMMM yyyy')} // make dynamic
       />
       <CardContent
         sx={{
@@ -85,7 +105,7 @@ const PiChart = (props) => {
           height: '90%',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'space-evenly',
+          justifyContent: 'space-around',
         }}
       >
         {expenseData.loaded && (
@@ -103,13 +123,50 @@ const PiChart = (props) => {
             type="donut"
           />
         )}
-        <div>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography variant="h6" color="inherit" component="div">
             Total expenses: ${tabValue === 0 && data?.series?.reduce((a, b) => a + b).toFixed(2)}
             {tabValue === 1 && (data?.series?.reduce((a, b) => a + b) / 2).toFixed(2)}
             {tabValue === 2 && (data?.series?.reduce((a, b) => a + b) / 4).toFixed(2)}
           </Typography>
-        </div>
+          <Tooltip title="View previous months" placement="top-end">
+            <IconButton
+              id="settings-menu"
+              aria-label="settings"
+              aria-controls={open ? 'settings-position-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClick}
+            >
+              <MoreVert />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            id="settings-positioned-menu"
+            aria-labelledby="settings-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+          >
+            <MenuItem id="TM" onClick={() => handleMonthSelect(null)}>
+              This Month
+            </MenuItem>
+            <MenuItem id="LM" onClick={() => handleMonthSelect(1)}>
+              Last Month
+            </MenuItem>
+            <MenuItem id="TMA" onClick={() => handleMonthSelect(2)}>
+              Two Months Ago
+            </MenuItem>
+          </Menu>
+        </Box>
       </CardContent>
     </StyledCard>
   );

@@ -19,8 +19,8 @@ const Root = styled('div')(({ theme }) => ({
 function Logo() {
   return (
     <Root className="flex items-center">
-      <img className="logo-icon w-24 h-24" src="assets/images/logos/fuse.svg" alt="logo" />
-      <Typography className="logo-text text-16 leading-none mx-12 font-medium" color="inherit">
+      <img className="logo-icon w-36 h-36" src="assets/images/logos/rocket-ship.svg" alt="logo" />
+      <Typography className="logo-text text-18 leading-none mx-12 font-medium" color="inherit">
         AdminHub
       </Typography>
       {/* <div

@@ -1,8 +1,27 @@
-const chartData = (apiData) => {
-  const names = apiData?.expenses?.map((item) => {
+/**
+ *
+ * @param {*Expense data from api} apiData
+ * @param {*date} date
+ * @returns Expense data specific to this month / month selected
+ */
+const chartData = (apiData, date) => {
+  /**
+   * below expression will be used to sort and display expenses by month
+   * possibly in the PiChartData function
+   */
+  const monthExpenseData = apiData?.expenses
+    ?.map((item) => {
+      if (new Date(item.date).getMonth() === date.getMonth()) {
+        return item;
+      }
+      return null;
+    })
+    .filter((item) => item !== null);
+
+  const names = monthExpenseData?.map((item) => {
     return item.name;
   });
-  const totals = apiData?.expenses?.map((item) => {
+  const totals = monthExpenseData?.map((item) => {
     return Number(item.total);
   });
 
