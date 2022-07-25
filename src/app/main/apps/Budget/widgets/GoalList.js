@@ -1,5 +1,6 @@
 import { styled } from '@mui/system';
-import { Card, CardHeader, CardContent } from '@mui/material';
+import { Card, CardHeader, CardContent, Stack } from '@mui/material';
+import GoalListItem from './GoalListItem';
 
 const StyledCard = styled(Card)`
   width: 20%;
@@ -15,7 +16,13 @@ const GoalList = (props) => {
         }}
         title="Manage Goals"
       />
-      <CardContent />
+      <CardContent>
+        <Stack spacing={3}>
+          <GoalListItem />
+          <GoalListItem />
+          <GoalListItem />
+        </Stack>
+      </CardContent>
     </StyledCard>
   );
 };
