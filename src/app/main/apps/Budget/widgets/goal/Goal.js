@@ -2,6 +2,7 @@ import { styled } from '@mui/system';
 import { useSelector } from 'react-redux';
 import { Card, CardHeader, CardContent } from '@mui/material';
 import ProgressChart from './ProgressChart';
+import ProgressWidget from './ProgressWidget';
 
 const StyledCard = styled(Card)`
   width: 40%;
@@ -19,6 +20,8 @@ const StyledCardContent = styled(CardContent)`
 const StyledDiv = styled('div')`
   height: 50%;
   width: 100%;
+  display: flex;
+  justify-content: space-evenly;
 `;
 
 const Goal = (props) => {
@@ -35,7 +38,7 @@ const Goal = (props) => {
       />
       <StyledCardContent>
         {goal && <ProgressChart goalData={goal} />}
-        <StyledDiv />
+        <StyledDiv>{goal && <ProgressWidget goalData={goal} />}</StyledDiv>
       </StyledCardContent>
     </StyledCard>
   );
