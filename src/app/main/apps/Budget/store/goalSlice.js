@@ -1,8 +1,18 @@
+/* eslint-disable prefer-destructuring */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const getGoals = createAsyncThunk('budgetApp/goals/getGoals', async () => {
+export const getGoals = createAsyncThunk('budgetApp/goals/getGoals', async (info, { dispatch }) => {
   const response = await axios.get('/api/budget/goals');
+  const data = await response.data;
+
+  dispatch(getGoal(data[0].id));
+
+  return data;
+});
+
+export const getGoal = createAsyncThunk('budgetApp/goals/getGoal', async (goalId) => {
+  const response = await axios.get('/api/budget/goal', { params: { goalId } });
   const data = await response.data;
 
   return data;
@@ -17,6 +27,11 @@ const goalSlice = createSlice({
   extraReducers: {
     [getGoals.fulfilled]: (state, action) => {
       state.goalItems = action.payload;
+      state.selectedGoal = action.payload[0].id;
+    },
+    [getGoal.fulfilled]: (state, action) => {
+      state.goal = action.payload;
+      state.selectedGoal = action.payload.id;
     },
   },
 });

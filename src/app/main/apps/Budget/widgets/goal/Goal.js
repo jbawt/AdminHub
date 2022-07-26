@@ -1,4 +1,5 @@
 import { styled } from '@mui/system';
+import { useSelector } from 'react-redux';
 import { Card, CardHeader, CardContent } from '@mui/material';
 import ProgressChart from './ProgressChart';
 
@@ -21,16 +22,19 @@ const StyledDiv = styled('div')`
 `;
 
 const Goal = (props) => {
+  const goal = useSelector(({ budgetApp }) => budgetApp.goals.goal);
+
   return (
     <StyledCard raised>
       <CardHeader
         sx={{
           borderBottom: '1px solid gray',
         }}
-        title="Goal Name" // make dynamic
+        title={goal ? goal.name : ''}
+        subheader={goal ? goal.description : ''}
       />
       <StyledCardContent>
-        <ProgressChart />
+        {goal && <ProgressChart goalData={goal} />}
         <StyledDiv />
       </StyledCardContent>
     </StyledCard>

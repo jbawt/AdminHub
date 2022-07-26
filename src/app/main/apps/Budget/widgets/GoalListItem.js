@@ -1,4 +1,5 @@
 import { styled } from '@mui/system';
+import { useDispatch } from 'react-redux';
 import {
   Box,
   Card,
@@ -11,6 +12,7 @@ import {
 } from '@mui/material';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import { EditOutlined, DeleteOutline } from '@mui/icons-material';
+import { getGoal } from '../store/goalSlice';
 
 const StyledCard = styled(Card)({
   width: '100%',
@@ -43,11 +45,16 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 function GoalListItem(props) {
+  const dispatch = useDispatch();
   const { goalData } = props;
   const progressBarPercent = Math.round((goalData.amountSaved / goalData.savings_goal) * 100);
 
+  const handleGoalSelect = (goalId) => {
+    dispatch(getGoal(goalId));
+  };
+
   return (
-    <StyledCard>
+    <StyledCard onClick={() => handleGoalSelect(goalData.id)}>
       <CardHeader
         sx={{
           borderBottom: '1px solid gray',
