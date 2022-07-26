@@ -5,43 +5,93 @@ import {
   CardHeader,
   CardContent,
   IconButton,
+  Tooltip,
+  Avatar,
   Typography,
-  ButtonBase,
 } from '@mui/material';
+import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import { EditOutlined, DeleteOutline } from '@mui/icons-material';
 
-const StyledCard = styled(Card)`
+const StyledCard = styled(Card)({
+  width: '100%',
+  border: '2px solid gray',
+  borderRadius: '10px',
+  '&:hover': {
+    cursor: 'pointer',
+    backgroundColor: 'gray',
+  },
+});
+
+const StyledDiv = styled('div')`
   width: 100%;
-  border: 2px solid gray;
-  border-radius: 10px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
-const StyledButtonBase = styled(ButtonBase)`
-  width: 100%;
-`;
+const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  height: 10,
+  boarderRadius: 5,
+  [`&.${linearProgressClasses.colorPrimary}`]: {
+    backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
+  },
+  [`& .${linearProgressClasses.bar}`]: {
+    borderRadius: 5,
+    backgroundColor: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
+  },
+}));
 
 function GoalListItem(props) {
+  const { goalData } = props;
+  const progressBarPercent = Math.round((goalData.amountSaved / goalData.savings_goal) * 100);
+
   return (
-    <StyledButtonBase>
-      <StyledCard>
-        <CardHeader
-          sx={{
-            borderBottom: '1px solid gray',
-          }}
-          action={
-            <Box sx={{ display: 'flex' }}>
-              <IconButton color="warning">
-                <EditOutlined />
-              </IconButton>
-              <IconButton color="error">
-                <DeleteOutline />
-              </IconButton>
-            </Box>
-          }
-          title="Test Goal" // make Dynamic
-        />
-      </StyledCard>
-    </StyledButtonBase>
+    <StyledCard>
+      <CardHeader
+        sx={{
+          borderBottom: '1px solid gray',
+        }}
+        action={
+          <Box>
+            <IconButton color="warning">
+              <EditOutlined />
+            </IconButton>
+            <IconButton color="error">
+              <DeleteOutline />
+            </IconButton>
+          </Box>
+        }
+        title={goalData.name}
+        subheader={goalData.description}
+      />
+      <CardContent>
+        <BorderLinearProgress variant="determinate" value={progressBarPercent} />
+        <StyledDiv>
+          {goalData.members.length > 0 && (
+            <div className="flex flex-wrap mt-10 -mx-4">
+              {goalData.members.map((member, index) => {
+                return (
+                  <Tooltip title={`${member.first_name} ${member.last_name}`} key={index}>
+                    <Avatar
+                      className="mx-4 w-32 h-32"
+                      src={member.photourl !== '' ? member.photourl : ''}
+                    />
+                  </Tooltip>
+                );
+              })}
+              <div />
+            </div>
+          )}
+          <Typography variany="body2" color="text.secondary">
+            ${goalData.amountSaved} / ${goalData.savings_goal}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {progressBarPercent}%
+          </Typography>
+        </StyledDiv>
+      </CardContent>
+    </StyledCard>
   );
 }
 

@@ -15,7 +15,9 @@ const goalSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [getGoals.fulfilled]: (state, action) => {},
+    [getGoals.fulfilled]: (state, action) => {
+      state.goalItems = action.payload;
+    },
   },
 });
 

@@ -87,7 +87,7 @@ const IncomeWidget = (props) => {
           </Box>
         }
         title="Income"
-        subheader={format(new Date(Date.now()), 'MMMM yyyy')} // make dynamic
+        subheader={format(new Date(Date.now()), 'MMMM yyyy')}
       />
       <CardContent>
         <Stack spacing={2}>
