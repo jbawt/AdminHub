@@ -25,6 +25,14 @@ const IncomeWidget = (props) => {
   const [tabValue, setTabValue] = useState(0);
   const totalIncome = useSelector(({ budgetApp }) => budgetApp.income.total);
   const expenseData = useSelector(({ budgetApp }) => budgetApp.expenses);
+  const filterMonthExpenses = expenseData.data.expenses
+    .filter((expense) => {
+      if (new Date(expense.date).getMonth() === new Date(Date.now()).getMonth()) {
+        return expense;
+      }
+      return null;
+    })
+    .filter((item) => item !== null);
 
   const federalTax = getFederalTaxAmount('AB', totalIncome, 0, 0);
   const provincialTax = getProvincialTaxAmount('AB', totalIncome, 0, 0);
@@ -35,7 +43,7 @@ const IncomeWidget = (props) => {
   const monthlyTax = tax / 12;
   const totalAfterTax = monthlyIncome - monthlyTax;
   const expenses = expenseData.loaded
-    ? expenseData.data.expenses.map((item) => Number(item.total)).reduce((a, b) => a + b)
+    ? filterMonthExpenses.map((item) => Number(item.total)).reduce((a, b) => a + b)
     : 0;
   const remaining = monthlyIncome - (monthlyTax + expenses);
 

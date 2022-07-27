@@ -29,6 +29,7 @@ const chartData = (apiData, date) => {
     options: {
       labels: names,
       theme: {
+        mode: 'dark',
         monochrome: {
           enabled: false,
         },
