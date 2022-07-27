@@ -25,7 +25,7 @@ const IncomeWidget = (props) => {
   const [tabValue, setTabValue] = useState(0);
   const totalIncome = useSelector(({ budgetApp }) => budgetApp.income.total);
   const expenseData = useSelector(({ budgetApp }) => budgetApp.expenses);
-  const filterMonthExpenses = expenseData.data.expenses
+  const filterMonthExpenses = expenseData?.data?.expenses
     .filter((expense) => {
       if (new Date(expense.date).getMonth() === new Date(Date.now()).getMonth()) {
         return expense;

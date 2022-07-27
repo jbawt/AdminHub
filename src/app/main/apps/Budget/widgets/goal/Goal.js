@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Card, CardHeader, CardContent } from '@mui/material';
 import ProgressChart from './ProgressChart';
 import ProgressWidget from './ProgressWidget';
+import NewPaymentForm from './NewPaymentForm';
 
 const StyledCard = styled(Card)`
   width: 40%;
@@ -21,7 +22,8 @@ const StyledDiv = styled('div')`
   height: 50%;
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  padding: 0 2% 0 2%;
+  justify-content: space-between;
 `;
 
 const Goal = (props) => {
@@ -38,7 +40,10 @@ const Goal = (props) => {
       />
       <StyledCardContent>
         {goal && <ProgressChart goalData={goal} />}
-        <StyledDiv>{goal && <ProgressWidget goalData={goal} />}</StyledDiv>
+        <StyledDiv>
+          {goal && <ProgressWidget goalData={goal} />}
+          {goal && <NewPaymentForm />}
+        </StyledDiv>
       </StyledCardContent>
     </StyledCard>
   );

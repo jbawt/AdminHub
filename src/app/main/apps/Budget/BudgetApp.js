@@ -1,6 +1,6 @@
 import withReducer from 'app/store/withReducer';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { styled } from '@mui/system';
 import { Box } from '@mui/material';
 import reducer from './store';
@@ -33,6 +33,7 @@ const StyledDiv = styled('div')`
 
 function BudgetApp() {
   const dispatch = useDispatch();
+  const goals = useSelector(({ budgetApp }) => budgetApp.goals.goalItems);
 
   useEffect(() => {
     dispatch(getIncome());
@@ -45,7 +46,7 @@ function BudgetApp() {
       <BudgetAppToolbar />
       <StyledDiv>
         <StyledBox>
-          <IncomeWidget />
+          {goals && <IncomeWidget />}
           <PiChart />
         </StyledBox>
         <Goal />

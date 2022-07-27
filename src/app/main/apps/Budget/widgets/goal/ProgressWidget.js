@@ -11,7 +11,7 @@ import {
 
 const StyledCard = styled(Card)({
   height: '90%',
-  width: '40%',
+  width: '45%',
 });
 
 function ProgressWidget(props) {
