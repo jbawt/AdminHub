@@ -26,6 +26,16 @@ export const getGoalUsers = createAsyncThunk('budgetApp/goals/getUsers', async (
   return data;
 });
 
+export const addMoneyToGoal = createAsyncThunk(
+  'budgetApp/goals/addMoneyToGoal',
+  async (insertData) => {
+    const response = await axios.post('/api/budget/update/weekly-savings', insertData);
+    const data = await response.data;
+
+    return data;
+  }
+);
+
 const initialState = {};
 
 const goalSlice = createSlice({
@@ -43,6 +53,9 @@ const goalSlice = createSlice({
     },
     [getGoalUsers.fulfilled]: (state, action) => {
       state.users = action.payload;
+    },
+    [addMoneyToGoal.fulfilled]: (state, action) => {
+      state.goal.savingsData = action.payload;
     },
   },
 });

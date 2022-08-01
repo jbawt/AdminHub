@@ -1,9 +1,10 @@
 import { styled } from '@mui/system';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from 'react-hook-form';
-import { useSelector } from 'react-redux';
-import { Button, Stack, TextField, Card, CardHeader, CardContent } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import { Button, Box, TextField, Card, CardHeader, CardContent } from '@mui/material';
 import * as yup from 'yup';
+import { addMoneyToGoal } from '../../store/goalSlice';
 
 const schema = yup.object().shape({
   amount: yup.number().required('You must enter a valid number'),
@@ -16,14 +17,27 @@ const StyledCard = styled(Card)({
 });
 
 function NewPaymentForm() {
+  const dispatch = useDispatch();
   const goal = useSelector(({ budgetApp }) => budgetApp.goals.goal);
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, setValue } = useForm({
     resolver: yupResolver(schema),
     mode: 'onSubmit',
   });
 
   function onSubmit(data) {
-    console.log(data);
+    const date = new Date();
+    const date2 = new Date();
+    const today = date.getDate();
+    const currentDay = date.getDay();
+    date.setHours(23, 59, 0, 0);
+    date2.setHours(0, 1, 0, 0);
+
+    data.goalId = goal.id;
+    data.weekStart = new Date(date.setDate(today - currentDay + 1));
+    data.weekEnd = new Date(date2.setDate(today - currentDay + 7));
+
+    dispatch(addMoneyToGoal(data));
+    setValue('amount', '');
   }
 
   return (
@@ -34,13 +48,21 @@ function NewPaymentForm() {
         }}
         title={`Add $ towards ${goal.name}`}
       />
-      <CardContent sx={{ pt: 12 }}>
+      <CardContent sx={{ pt: 12, height: '100%' }}>
         <form
           noValidate
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col md:overflow-hidden"
+          className="flex flex-col md:overflow-hidden h-full"
         >
-          <Stack spacing={4}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-around',
+              height: '50%',
+              width: '100%',
+            }}
+          >
             <Controller
               control={control}
               name="amount"
@@ -59,7 +81,7 @@ function NewPaymentForm() {
             <Button variant="contained" color="primary" type="submit">
               Add
             </Button>
-          </Stack>
+          </Box>
         </form>
       </CardContent>
     </StyledCard>
