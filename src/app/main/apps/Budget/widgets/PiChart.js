@@ -33,6 +33,7 @@ const PiChart = (props) => {
   const open = Boolean(anchorEl);
 
   const data = chartData(expenseData.data, selectedDate);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -108,7 +109,7 @@ const PiChart = (props) => {
           justifyContent: 'space-around',
         }}
       >
-        {expenseData.loaded && (
+        {expenseData.loaded && data.series.length > 0 && (
           <ReactApexChart
             options={data.options}
             series={
@@ -123,12 +124,29 @@ const PiChart = (props) => {
             type="donut"
           />
         )}
+
+        {expenseData.loaded && data.series.length <= 0 && (
+          <Box sx={{ width: '90%', height: '70%' }}>
+            <Typography variant="h5" component="div">
+              No Budget Created
+            </Typography>
+          </Box>
+        )}
+
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h6" color="inherit" component="div">
-            Total expenses: ${tabValue === 0 && data?.series?.reduce((a, b) => a + b).toFixed(2)}
-            {tabValue === 1 && (data?.series?.reduce((a, b) => a + b) / 2).toFixed(2)}
-            {tabValue === 2 && (data?.series?.reduce((a, b) => a + b) / 4).toFixed(2)}
-          </Typography>
+          {expenseData.loaded && data.series.length > 0 && (
+            <Typography variant="h6" color="inherit" component="div">
+              Total expenses: ${tabValue === 0 && data?.series?.reduce((a, b) => a + b).toFixed(2)}
+              {tabValue === 1 && (data?.series?.reduce((a, b) => a + b) / 2).toFixed(2)}
+              {tabValue === 2 && (data?.series?.reduce((a, b) => a + b) / 4).toFixed(2)}
+            </Typography>
+          )}
+
+          {expenseData.loaded && data.series.length <= 0 && (
+            <Typography variant="h6" color="inherit" component="div">
+              Total expenses: $0
+            </Typography>
+          )}
           <Tooltip title="View previous months" placement="top-end">
             <IconButton
               id="settings-menu"
