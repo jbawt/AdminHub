@@ -1,5 +1,6 @@
 import { styled } from '@mui/system';
 import { useDispatch } from 'react-redux';
+import withReducer from 'app/store/withReducer';
 import {
   Box,
   Card,
@@ -12,7 +13,9 @@ import {
 } from '@mui/material';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import { EditOutlined, DeleteOutline } from '@mui/icons-material';
+import reducer from '../store';
 import { getGoal } from '../store/goalSlice';
+import { openCardDialog } from '../store/cardSlice';
 
 const StyledCard = styled(Card)({
   width: '100%',
@@ -53,6 +56,10 @@ function GoalListItem(props) {
     dispatch(getGoal(goalId));
   };
 
+  const handleGoalEdit = (data) => {
+    dispatch(openCardDialog(goalData));
+  };
+
   return (
     <StyledCard onClick={() => handleGoalSelect(goalData.id)}>
       <CardHeader
@@ -61,7 +68,7 @@ function GoalListItem(props) {
         }}
         action={
           <Box>
-            <IconButton color="warning">
+            <IconButton color="warning" onClick={() => handleGoalEdit('random data')}>
               <EditOutlined />
             </IconButton>
             <IconButton color="error">
@@ -102,4 +109,4 @@ function GoalListItem(props) {
   );
 }
 
-export default GoalListItem;
+export default withReducer('budgetApp', reducer)(GoalListItem);

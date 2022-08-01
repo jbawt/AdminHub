@@ -7,12 +7,20 @@ export const getGoals = createAsyncThunk('budgetApp/goals/getGoals', async (info
   const data = await response.data;
 
   dispatch(getGoal(data[0].id));
+  dispatch(getGoalUsers());
 
   return data;
 });
 
 export const getGoal = createAsyncThunk('budgetApp/goals/getGoal', async (goalId) => {
   const response = await axios.get('/api/budget/goal', { params: { goalId } });
+  const data = await response.data;
+
+  return data;
+});
+
+export const getGoalUsers = createAsyncThunk('budgetApp/goals/getUsers', async () => {
+  const response = await axios.get('/api/budget/users');
   const data = await response.data;
 
   return data;
@@ -32,6 +40,9 @@ const goalSlice = createSlice({
     [getGoal.fulfilled]: (state, action) => {
       state.goal = action.payload;
       state.selectedGoal = action.payload.id;
+    },
+    [getGoalUsers.fulfilled]: (state, action) => {
+      state.users = action.payload;
     },
   },
 });

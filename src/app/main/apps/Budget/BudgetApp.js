@@ -12,6 +12,7 @@ import PiChart from './widgets/PiChart';
 import IncomeWidget from './widgets/IncomeWidget';
 import Goal from './widgets/goal/Goal';
 import GoalList from './widgets/GoalList';
+import BudgetCardDialog from './dialogs/BudgetCardDialog';
 
 const StyledBox = styled(Box)`
   display: flex;
@@ -52,6 +53,8 @@ function BudgetApp() {
         <Goal />
         <GoalList />
       </StyledDiv>
+
+      <BudgetCardDialog />
     </>
   );
 }
