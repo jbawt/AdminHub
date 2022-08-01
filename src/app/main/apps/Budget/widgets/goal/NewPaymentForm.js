@@ -1,6 +1,7 @@
 import { styled } from '@mui/system';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { Button, Stack, TextField, Card, CardHeader, CardContent } from '@mui/material';
 import * as yup from 'yup';
 
@@ -15,6 +16,7 @@ const StyledCard = styled(Card)({
 });
 
 function NewPaymentForm() {
+  const goal = useSelector(({ budgetApp }) => budgetApp.goals.goal);
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
     mode: 'onSubmit',
@@ -30,7 +32,7 @@ function NewPaymentForm() {
         sx={{
           borderBottom: '1px solid gray',
         }}
-        title="Add $ To Goal"
+        title={`Add $ towards ${goal.name}`}
       />
       <CardContent sx={{ pt: 12 }}>
         <form

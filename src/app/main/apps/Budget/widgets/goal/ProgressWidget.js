@@ -21,7 +21,7 @@ function ProgressWidget(props) {
 
   return (
     <StyledCard>
-      <CardHeader title="Progress" sx={{ borderBottom: '1px solid gray' }} />
+      <CardHeader title={`${goalData.name} Progress`} sx={{ borderBottom: '1px solid gray' }} />
       <CardContent>
         <Box
           sx={{
