@@ -1,6 +1,7 @@
 /* eslint-disable prefer-destructuring */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { updateCard } from './cardSlice';
 
 export const getGoals = createAsyncThunk('budgetApp/goals/getGoals', async (info, { dispatch }) => {
   const response = await axios.get('/api/budget/goals');
@@ -56,6 +57,9 @@ const goalSlice = createSlice({
     },
     [addMoneyToGoal.fulfilled]: (state, action) => {
       state.goal.savingsData = action.payload;
+    },
+    [updateCard.fulfilled]: (state, action) => {
+      state.goalItems = action.payload;
     },
   },
 });

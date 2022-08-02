@@ -33,8 +33,17 @@ function BudgetCardForm(props) {
   const cardForm = watch();
   const [changeDisabled, setChangeDisabled] = useState(true);
 
-  const updateCardData = useDebounce((goalId, newCard) => {
-    dispatch(updateCard({ goalId, card: { ...newCard } }));
+  const updateCardData = useDebounce((newCard) => {
+    const newData = {
+      id: newCard.id,
+      name: newCard.name,
+      description: newCard.description,
+      members: newCard.members,
+      memberIds: newCard.memberIds,
+      savingsGoal: newCard.savings_goal,
+    };
+
+    dispatch(updateCard(newData));
     dispatch(closeCardDialog());
   }, 600);
 
@@ -170,7 +179,7 @@ function BudgetCardForm(props) {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => updateCardData()}
+            onClick={() => updateCardData(cardForm)}
             disabled={changeDisabled}
           >
             Save Changes

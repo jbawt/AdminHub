@@ -4,11 +4,8 @@ import { showMessage } from 'app/store/fuse/messageSlice';
 
 export const updateCard = createAsyncThunk(
   'budgetApp/card/updateCard',
-  async ({ goalId, card }, { dispatch }) => {
-    const response = await axios.post('/api/budget/card/update', {
-      goalId,
-      card,
-    });
+  async (card, { dispatch }) => {
+    const response = await axios.post('/api/budget/card/update', card);
 
     const data = await response.data;
 
