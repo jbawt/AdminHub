@@ -172,6 +172,23 @@ function BudgetCardForm(props) {
           )}
         </div>
 
+        <div className="flex items-center mb-24">
+          <Controller
+            name="savings_goal"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Savings Goal"
+                variant="outlined"
+                type="number"
+                required
+                fullWidth
+              />
+            )}
+          />
+        </div>
+
         <div className="w-full flex justify-around items-center">
           <Button variant="contained" color="error" onClick={() => dispatch(closeCardDialog())}>
             Cancel
