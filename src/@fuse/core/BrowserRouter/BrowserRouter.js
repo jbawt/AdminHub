@@ -8,6 +8,7 @@ function BrowserRouter({ basename, children, window }) {
     location: history.location,
   });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useLayoutEffect(() => history.listen(setState), [history]);
 
   return (

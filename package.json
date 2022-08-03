@@ -151,5 +151,5 @@
             "last 3 safari version"
         ]
     },
-    "proxy": "http://localhost:8080"
+    "proxy": "https://admin-hub.herokuapp.com"
 }
