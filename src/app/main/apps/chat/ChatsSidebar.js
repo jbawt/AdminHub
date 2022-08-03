@@ -124,11 +124,8 @@ function ChatsSidebar(props) {
                 open={Boolean(statusMenuEl)}
                 onClose={handleStatusClose}
               >
-                {statusArr.map((status) => (
-                  <MenuItem
-                    onClick={(ev) => handleStatusSelect(ev, status.value)}
-                    key={status.value}
-                  >
+                {statusArr.map((status, index) => (
+                  <MenuItem onClick={(ev) => handleStatusSelect(ev, status.value)} key={index}>
                     <ListItemIcon className="min-w-40">
                       <StatusIcon status={status.value} />
                     </ListItemIcon>
@@ -231,8 +228,8 @@ function ChatsSidebar(props) {
                   </motion.div>
                 )}
 
-                {filteredChatList.map((contact) => (
-                  <motion.div variants={item} key={contact.id}>
+                {filteredChatList.map((contact, index) => (
+                  <motion.div variants={item} key={index}>
                     <ContactListItem
                       contact={contact}
                       onContactClick={(contactId) => dispatch(getChat({ contactId, isMobile }))}
@@ -248,8 +245,8 @@ function ChatsSidebar(props) {
                   </motion.div>
                 )}
 
-                {filteredContacts.map((contact) => (
-                  <motion.div variants={item} key={contact.id}>
+                {filteredContacts.map((contact, index) => (
+                  <motion.div variants={item} key={index}>
                     <ContactListItem
                       contact={contact}
                       onContactClick={(contactId) => dispatch(getChat({ contactId, isMobile }))}
