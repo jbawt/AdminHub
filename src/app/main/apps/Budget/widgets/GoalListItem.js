@@ -14,7 +14,7 @@ import {
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import { EditOutlined, DeleteOutline } from '@mui/icons-material';
 import reducer from '../store';
-import { getGoal } from '../store/goalSlice';
+import { getGoal, deleteGoal } from '../store/goalSlice';
 import { openCardDialog } from '../store/cardSlice';
 
 const StyledCard = styled(Card)({
@@ -60,6 +60,10 @@ function GoalListItem(props) {
     dispatch(openCardDialog(goalData));
   };
 
+  const handleGoalDelete = () => {
+    dispatch(deleteGoal(goalData.id));
+  };
+
   return (
     <StyledCard onClick={() => handleGoalSelect(goalData.id)}>
       <CardHeader
@@ -68,10 +72,10 @@ function GoalListItem(props) {
         }}
         action={
           <Box>
-            <IconButton color="warning" onClick={() => handleGoalEdit('random data')}>
+            <IconButton color="warning" onClick={handleGoalEdit}>
               <EditOutlined />
             </IconButton>
-            <IconButton color="error">
+            <IconButton color="error" onClick={handleGoalDelete}>
               <DeleteOutline />
             </IconButton>
           </Box>
