@@ -1,28 +1,28 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { showMessage } from 'app/store/fuse/messageSlice';
+import { createSlice } from '@reduxjs/toolkit';
+// import axios from 'axios';
+// import { showMessage } from 'app/store/fuse/messageSlice';
 
-export const updateCard = createAsyncThunk(
-  'budgetApp/card/updateCard',
-  async (card, { dispatch }) => {
-    const response = await axios.post('/api/budget/card/update', card);
+// export const updateCard = createAsyncThunk(
+//   'budgetApp/card/updateCard',
+//   async (card, { dispatch }) => {
+//     const response = await axios.post('/api/budget/card/update', card);
 
-    const data = await response.data;
+//     const data = await response.data;
 
-    dispatch(
-      showMessage({
-        message: 'Card Saved',
-        autoHideDuration: 2000,
-        anchorOrigin: {
-          vertical: 'top',
-          horizontal: 'right',
-        },
-      })
-    );
+//     dispatch(
+//       showMessage({
+//         message: 'Card Saved',
+//         autoHideDuration: 2000,
+//         anchorOrigin: {
+//           vertical: 'top',
+//           horizontal: 'right',
+//         },
+//       })
+//     );
 
-    return data;
-  }
-);
+//     return data;
+//   }
+// );
 
 const cardSlice = createSlice({
   name: 'budgetApp/card',

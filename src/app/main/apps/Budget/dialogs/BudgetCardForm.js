@@ -19,7 +19,8 @@ import {
 import { Controller, useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateCard, closeCardDialog } from '../store/cardSlice';
+import { closeCardDialog } from '../store/cardSlice';
+import { updateCard } from '../store/goalSlice';
 import MembersMenu from './toolbar/MembersMenu';
 
 function BudgetCardForm(props) {

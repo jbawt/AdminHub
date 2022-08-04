@@ -1,7 +1,8 @@
 /* eslint-disable prefer-destructuring */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { updateCard } from './cardSlice';
+import { showMessage } from 'app/store/fuse/messageSlice';
+// import _ from '@lodash';
 
 export const getGoals = createAsyncThunk('budgetApp/goals/getGoals', async (info, { dispatch }) => {
   const response = await axios.get('/api/budget/goals');
@@ -32,6 +33,32 @@ export const addMoneyToGoal = createAsyncThunk(
   async (insertData) => {
     const response = await axios.post('/api/budget/update/weekly-savings', insertData);
     const data = await response.data;
+
+    return data;
+  }
+);
+
+export const updateCard = createAsyncThunk(
+  'budgetApp/card/updateCard',
+  async (card, { dispatch, getState }) => {
+    const response = await axios.post('/api/budget/card/update', card);
+
+    const data = await response.data;
+
+    dispatch(
+      showMessage({
+        message: 'Card Saved',
+        autoHideDuration: 2000,
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right',
+        },
+      })
+    );
+
+    const selectedGoalId = getState().budgetApp.goals.selectedGoal;
+
+    dispatch(getGoal(selectedGoalId));
 
     return data;
   }
