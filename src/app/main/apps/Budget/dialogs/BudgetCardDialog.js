@@ -21,7 +21,7 @@ function BudgetCardDialog(props) {
       open={cardDialogOpen}
       type={cardType}
     >
-      <BudgetCardForm />
+      <BudgetCardForm type={cardType} />
     </Dialog>
   );
 }

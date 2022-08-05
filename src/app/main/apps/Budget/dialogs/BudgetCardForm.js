@@ -19,47 +19,47 @@ import {
 import { Controller, useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeEditDialog } from '../store/cardSlice';
-import { updateCard } from '../store/goalSlice';
+import { closeEditDialog, closeNewCardDialog } from '../store/cardSlice';
+import { updateCard, createGoal } from '../store/goalSlice';
 import MembersMenu from './toolbar/MembersMenu';
 
-function BudgetCardForm({ cardType, open }) {
+function BudgetCardForm({ type }) {
   const [changeDisabled, setChangeDisabled] = useState(true);
   const dispatch = useDispatch();
   const cardData = useSelector(({ budgetApp }) => budgetApp.card.data);
   const members = useSelector(({ budgetApp }) => budgetApp.goals.users);
 
-  const defaultValues =
-    cardType === 'new'
-      ? {
-          name: '',
-          description: '',
-          amountSaved: 0,
-          memberIds: [],
-          members: [],
-          savingsGoal: 0,
-          users: members,
-        }
-      : cardData;
-
-  const { register, watch, control, setValue, reset } = useForm({
+  const { watch, control, setValue } = useForm({
     mode: 'onSubmit',
-    defaultValues,
+    defaultValues: cardData,
   });
   const cardForm = watch();
 
-  const updateCardData = useDebounce((newCard) => {
-    const newData = {
-      id: newCard.id,
-      name: newCard.name,
-      description: newCard.description,
-      members: newCard.members,
-      memberIds: newCard.memberIds,
-      savingsGoal: newCard.savings_goal,
-    };
+  const handleSubmit = useDebounce((newCard) => {
+    if (type === 'new') {
+      const newData = {
+        name: newCard.name,
+        description: newCard.description,
+        members: newCard.members,
+        memberIds: newCard.memberIds,
+        savingsGoal: newCard.savings_goal,
+      };
 
-    dispatch(updateCard(newData));
-    dispatch(closeEditDialog());
+      dispatch(createGoal(newData));
+      dispatch(closeNewCardDialog());
+    } else {
+      const newData = {
+        id: newCard.id,
+        name: newCard.name,
+        description: newCard.description,
+        members: newCard.members,
+        memberIds: newCard.memberIds,
+        savingsGoal: newCard.savings_goal,
+      };
+
+      dispatch(updateCard(newData));
+      dispatch(closeEditDialog());
+    }
   }, 600);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ function BudgetCardForm({ cardType, open }) {
       setChangeDisabled(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardData, cardForm, updateCardData]);
+  }, [cardData, cardForm]);
 
   if (!cardData) {
     return null;
@@ -211,7 +211,7 @@ function BudgetCardForm({ cardType, open }) {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => updateCardData(cardForm)}
+            onClick={() => handleSubmit(cardForm)}
             disabled={changeDisabled}
           >
             Save Changes

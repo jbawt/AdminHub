@@ -16,7 +16,10 @@ const StyledCard = styled(Card)({
 
 function ProgressWidget(props) {
   const { goalData } = props;
-  const amountSaved = goalData.savingsData.map((item) => item.amount).reduce((a, b) => a + b);
+  const amountSaved =
+    goalData.savingsData.length > 0
+      ? goalData.savingsData.map((item) => item.amount).reduce((a, b) => a + b)
+      : 0;
   const goalPercent = Math.round((amountSaved / goalData.savings_goal) * 100);
 
   return (

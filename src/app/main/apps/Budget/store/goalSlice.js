@@ -68,6 +68,20 @@ export const deleteGoal = createAsyncThunk(
     const response = await axios.post('/api/budget/card/delete', { goalId });
     const data = await response.data;
 
+    dispatch(getGoal(data[0].id));
+
+    return data;
+  }
+);
+
+export const createGoal = createAsyncThunk(
+  'budgetApp/goals/createGoal',
+  async (goalData, { dispatch }) => {
+    const response = await axios.post('/api/budget/card/create', goalData);
+    const data = await response.data;
+
+    dispatch(getGoal(data[0].id));
+
     return data;
   }
 );
@@ -97,6 +111,10 @@ const goalSlice = createSlice({
       state.goalItems = action.payload;
     },
     [deleteGoal.fulfilled]: (state, action) => {
+      state.goalItems = action.payload;
+      state.selectedGoal = action.payload[0].id;
+    },
+    [createGoal.fulfilled]: (state, action) => {
       state.goalItems = action.payload;
       state.selectedGoal = action.payload[0].id;
     },
