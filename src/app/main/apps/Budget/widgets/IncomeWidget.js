@@ -42,9 +42,10 @@ const IncomeWidget = (props) => {
   const monthlyProvTax = provincialTax / 12;
   const monthlyTax = tax / 12;
   const totalAfterTax = monthlyIncome - monthlyTax;
-  const expenses = expenseData.loaded
-    ? filterMonthExpenses.map((item) => Number(item.total)).reduce((a, b) => a + b)
-    : 0;
+  const expenses =
+    expenseData.loaded && filterMonthExpenses.length !== 0
+      ? filterMonthExpenses.map((item) => Number(item.total)).reduce((a, b) => a + b)
+      : 0;
   const remaining = monthlyIncome - (monthlyTax + expenses);
 
   return (
