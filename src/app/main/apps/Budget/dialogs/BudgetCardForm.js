@@ -19,20 +19,34 @@ import {
 import { Controller, useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeCardDialog } from '../store/cardSlice';
+import { closeEditDialog } from '../store/cardSlice';
 import { updateCard } from '../store/goalSlice';
 import MembersMenu from './toolbar/MembersMenu';
 
-function BudgetCardForm(props) {
+function BudgetCardForm({ cardType, open }) {
+  const [changeDisabled, setChangeDisabled] = useState(true);
   const dispatch = useDispatch();
   const cardData = useSelector(({ budgetApp }) => budgetApp.card.data);
   const members = useSelector(({ budgetApp }) => budgetApp.goals.users);
-  const { register, watch, control, setValue } = useForm({
+
+  const defaultValues =
+    cardType === 'new'
+      ? {
+          name: '',
+          description: '',
+          amountSaved: 0,
+          memberIds: [],
+          members: [],
+          savingsGoal: 0,
+          users: members,
+        }
+      : cardData;
+
+  const { register, watch, control, setValue, reset } = useForm({
     mode: 'onSubmit',
-    defaultValues: cardData,
+    defaultValues,
   });
   const cardForm = watch();
-  const [changeDisabled, setChangeDisabled] = useState(true);
 
   const updateCardData = useDebounce((newCard) => {
     const newData = {
@@ -45,7 +59,7 @@ function BudgetCardForm(props) {
     };
 
     dispatch(updateCard(newData));
-    dispatch(closeCardDialog());
+    dispatch(closeEditDialog());
   }, 600);
 
   useEffect(() => {
@@ -81,7 +95,7 @@ function BudgetCardForm(props) {
                 )}
               />
             </div>
-            <IconButton color="inherit" onClick={(_ev) => dispatch(closeCardDialog())} size="large">
+            <IconButton color="inherit" onClick={(_ev) => dispatch(closeEditDialog())} size="large">
               <Icon>close</Icon>
             </IconButton>
           </Toolbar>
@@ -191,7 +205,7 @@ function BudgetCardForm(props) {
         </div>
 
         <div className="w-full flex justify-around items-center">
-          <Button variant="contained" color="error" onClick={() => dispatch(closeCardDialog())}>
+          <Button variant="contained" color="error" onClick={() => dispatch(closeEditDialog())}>
             Cancel
           </Button>
           <Button

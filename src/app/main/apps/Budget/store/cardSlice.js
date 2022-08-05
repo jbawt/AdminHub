@@ -6,20 +6,34 @@ const cardSlice = createSlice({
   initialState: {
     dialogOpen: false,
     data: null,
+    type: 'new',
   },
   reducers: {
-    openCardDialog: (state, action) => {
+    openNewCardDialog: (state, action) => {
       state.dialogOpen = true;
       state.data = action.payload;
+      state.type = 'new';
     },
-    closeCardDialog: (state, action) => {
+    closeNewCardDialog: (state, action) => {
       state.dialogOpen = false;
       state.data = null;
+      state.type = 'new';
+    },
+    openEditDialog: (state, action) => {
+      state.dialogOpen = true;
+      state.data = action.payload;
+      state.type = 'edit';
+    },
+    closeEditDialog: (state, action) => {
+      state.dialogOpen = false;
+      state.data = null;
+      state.type = 'edit';
     },
   },
   extraReducers: {},
 });
 
-export const { openCardDialog, closeCardDialog } = cardSlice.actions;
+export const { openNewCardDialog, closeNewCardDialog, openEditDialog, closeEditDialog } =
+  cardSlice.actions;
 
 export default cardSlice.reducer;
