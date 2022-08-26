@@ -4,6 +4,7 @@ const chartData = (goalData) => {
   const seriesData = goalData.savingsData.map((item) => {
     return item.amount;
   });
+
   const categories = goalData.savingsData.map((item) => {
     const start = `${format(new Date(item.week_start), 'MMM dd')}`;
     const end = `${format(new Date(item.week_end), 'MMM dd')}`;

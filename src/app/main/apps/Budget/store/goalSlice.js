@@ -49,8 +49,9 @@ export const updateCard = createAsyncThunk(
 
     dispatch(
       showMessage({
-        message: 'Card Saved',
+        message: 'Goal Info Updated',
         autoHideDuration: 2000,
+        variant: 'info',
         anchorOrigin: {
           vertical: 'top',
           horizontal: 'right',
@@ -81,6 +82,18 @@ export const createGoal = createAsyncThunk(
     const data = await response.data;
 
     dispatch(getGoal(data[0].id));
+
+    dispatch(
+      showMessage({
+        message: 'New Goal Created',
+        autoHideDuration: 2000,
+        variant: 'success',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right',
+        },
+      })
+    );
 
     return data;
   }
