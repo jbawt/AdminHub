@@ -32,6 +32,28 @@ const navigationConfig = [
     icon: 'apps',
     children: [
       {
+        id: 'budget',
+        title: 'Budget',
+        type: 'collapse',
+        icon: 'attach_money',
+        url: 'apps/budget',
+        children: [
+          {
+            id: 'budget-overview',
+            title: 'Overview',
+            type: 'item',
+            url: 'apps/budget/overview',
+          },
+          {
+            id: 'budget-manage',
+            title: 'Manage',
+            type: 'item',
+            url: 'apps/budget/manage',
+            end: true,
+          },
+        ],
+      },
+      {
         id: 'calendar',
         title: 'Calendar',
         translate: 'CALENDAR',
@@ -62,13 +84,6 @@ const navigationConfig = [
         type: 'item',
         icon: 'note',
         url: 'apps/notes',
-      },
-      {
-        id: 'budget',
-        title: 'Budget',
-        type: 'item',
-        icon: 'attach_money',
-        url: 'apps/budget',
       },
     ],
   },

@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 
 const BudgetApp = lazy(() => import('./BudgetApp'));
+const ManageBudget = lazy(() => import('./manageBudget/ManageBudget'));
 
 const BudgetAppConfig = {
   settings: {
@@ -10,8 +11,12 @@ const BudgetAppConfig = {
   },
   routes: [
     {
-      path: 'apps/budget',
+      path: 'apps/budget/overview',
       element: <BudgetApp />,
+    },
+    {
+      path: 'apps/budget/manage',
+      element: <ManageBudget />,
     },
   ],
 };
