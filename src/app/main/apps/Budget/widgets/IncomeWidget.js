@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { getFederalTaxAmount, getProvincialTaxAmount } from '@equisoft/tax-ca';
 import { format } from 'date-fns';
 import {
-  // TextField,
   Tabs,
   Tab,
   Card,

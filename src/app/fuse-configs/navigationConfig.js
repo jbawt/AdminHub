@@ -36,7 +36,6 @@ const navigationConfig = [
         title: 'Budget',
         type: 'collapse',
         icon: 'attach_money',
-        url: 'apps/budget',
         children: [
           {
             id: 'budget-overview',

@@ -6,7 +6,7 @@ const BudgetAppToolbar = (props) => {
       <AppBar position="static">
         <Toolbar variant="regular" sx={{ display: 'flex', justifyContent: 'space-around' }}>
           <Typography variant="h6" color="inherit" component="div">
-            Budget Planner
+            Budget
           </Typography>
         </Toolbar>
       </AppBar>
