@@ -42,14 +42,14 @@ function ManageBudget() {
       <BudgetAppToolbar />
       <StyledDiv>
         <StyledBox>
-          <IncomeWidget />
-          <PiChart />
-        </StyledBox>
-        <StyledBox>
           <EditIncomeForm />
           <ExpenseMonthList />
         </StyledBox>
         <ExpenseForm />
+        <StyledBox>
+          <IncomeWidget />
+          <PiChart />
+        </StyledBox>
       </StyledDiv>
     </>
   );
