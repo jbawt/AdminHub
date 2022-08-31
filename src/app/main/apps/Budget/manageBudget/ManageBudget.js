@@ -9,7 +9,7 @@ import ExpenseForm from './ExpenseForm';
 import ExpenseMonthList from './ExpenseMonthList';
 import EditIncomeForm from './EditIncomeForm';
 import { getIncome } from '../store/incomeSlice';
-import { getExpenses } from '../store/expenseSlice';
+import { getExpenses, getExpenseMonthList } from '../store/expenseSlice';
 
 const StyledDiv = styled('div')`
   display: flex;
@@ -24,7 +24,7 @@ const StyledDiv = styled('div')`
 const StyledBox = styled(Box)`
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
   width: 20%;
   height: 97%;
 `;
@@ -35,6 +35,7 @@ function ManageBudget() {
   useEffect(() => {
     dispatch(getIncome());
     dispatch(getExpenses());
+    dispatch(getExpenseMonthList());
   }, [dispatch]);
 
   return (

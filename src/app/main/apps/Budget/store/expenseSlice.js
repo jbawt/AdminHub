@@ -8,9 +8,20 @@ export const getExpenses = createAsyncThunk('budgetApp/expenses/getExpenses', as
   return data;
 });
 
+export const getExpenseMonthList = createAsyncThunk(
+  'budgetApp/expenses/getExpenseMonthList',
+  async () => {
+    const response = await axios.get('api/budget/expenses/expense-month-list');
+    const data = await response.data;
+
+    return data;
+  }
+);
+
 const initialState = {
   loaded: false,
   data: {},
+  monthList: [],
 };
 
 const expenseSlice = createSlice({
@@ -21,6 +32,9 @@ const expenseSlice = createSlice({
     [getExpenses.fulfilled]: (state, action) => {
       state.data = action.payload;
       state.loaded = true;
+    },
+    [getExpenseMonthList.fulfilled]: (state, action) => {
+      state.monthList = action.payload;
     },
   },
 });

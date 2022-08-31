@@ -11,7 +11,7 @@ const StyledCard = styled(Card)`
 
 function EditIncomeForm() {
   const dispatch = useDispatch();
-  const income = useSelector(({ budgetApp }) => budgetApp.income);
+  const income = useSelector(({ budgetApp }) => budgetApp?.income);
   const { control, handleSubmit, reset } = useForm({
     mode: 'onSubmit',
     defaultValues: income,

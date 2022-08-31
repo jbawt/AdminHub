@@ -3,7 +3,7 @@ import { Card, CardHeader } from '@mui/material';
 
 const StyledCard = styled(Card)`
   width: 40%;
-  height: 80%;
+  height: 87%;
 `;
 
 function ExpenseForm() {
