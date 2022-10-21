@@ -54,7 +54,7 @@ function ModernInvoicePage() {
                   <div className="flex items-center mb-80 print:mb-0">
                     <img
                       className="w-160 print:w-60"
-                      src="assets/images/logos/fuse.svg"
+                      src="assets/images/logos/rocket-ship.svg"
                       alt="logo"
                     />
 
@@ -288,7 +288,7 @@ function ModernInvoicePage() {
 
                 <div className="flex">
                   <div className="shrink-0">
-                    <img className="w-32" src="assets/images/logos/fuse.svg" alt="logo" />
+                    <img className="w-32" src="assets/images/logos/rocket-ship.svg" alt="logo" />
                   </div>
 
                   <Typography

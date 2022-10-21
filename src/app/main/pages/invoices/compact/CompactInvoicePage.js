@@ -115,7 +115,7 @@ function CompactInvoicePage() {
                 </div>
 
                 <div className="CompactInvoicePage-seller flex items-center p-16">
-                  <img className="w-80" src="assets/images/logos/fuse.svg" alt="logo" />
+                  <img className="w-80" src="assets/images/logos/rocket-ship.svg" alt="logo" />
 
                   <div className="CompactInvoicePage-divider w-px mx-8 h-96 opacity-50" />
 
@@ -249,7 +249,7 @@ function CompactInvoicePage() {
 
                 <div className="flex">
                   <div className="shrink-0">
-                    <img className="w-32" src="assets/images/logos/fuse.svg" alt="logo" />
+                    <img className="w-32" src="assets/images/logos/rocket-ship.svg" alt="logo" />
                   </div>
 
                   <Typography
